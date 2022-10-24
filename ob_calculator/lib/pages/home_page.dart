@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/pages/imc_page.dart';
 
 import '../models/pagina_model.dart';
 import 'edad_gestacional_page.dart';
@@ -26,8 +27,12 @@ class _HomePageState extends State<HomePage> {
         pathPagina: FurOperacionalPage()),
     Pagina(
         iconoPagina: Icon(MdiIcons.babyBottle),
+        nombrePagina: 'IMC',
+        pathPagina: ImcPage()),
+    Pagina(
+        iconoPagina: Icon(MdiIcons.babyBottle),
         nombrePagina: 'Carta Astral',
-        pathPagina: CartaAstralPage())
+        pathPagina: CartaAstralPage()),
   ];
   late int numPagina;
   @override

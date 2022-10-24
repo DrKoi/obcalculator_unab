@@ -12,7 +12,7 @@ class _CartaAstralPageState extends State<CartaAstralPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Carta Astral'),
+        child: Image(image: AssetImage('assets/zodiaco_maya.jpg')),
       ),
     );
   }
