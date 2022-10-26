@@ -86,17 +86,19 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                       /* var dia = fechaSeleccionada.toString().substring(0, 3);
                       var mes = fechaSeleccionada.toString().substring(3, 5); */
                       //Duration mesesAtras = fechaSeleccionada.difference();
-                      var fechaSelMenosTres = new DateTime(
-                          fechaSeleccionada.day + 7,
+                      /* var fechaDiasAdded =
+                          fechaSeleccionada.add(Duration(days: 7)); */
+                      var fechaMesesSubstracted = DateTime(
+                          fechaSeleccionada.year + 1,
                           fechaSeleccionada.month - 3,
-                          fechaSeleccionada.year + 1);
-                      fFecha.format(fechaSelMenosTres);
+                          fechaSeleccionada.day + 7);
+                      // fFecha.format(fechaSelMenosTres);
                       Duration edadGestacional =
                           DateTime.now().difference(fechaSeleccionada);
 
                       return AlertDialog(
                         content: Text(
-                            'La edad gestacional es de ${edadGestacional.inDays} días y la Fecha probable de parto es ${fFecha.format(fechaSelMenosTres)}'),
+                            'La edad gestacional es de ${edadGestacional.inDays} días y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
                       );
                     }));
               });

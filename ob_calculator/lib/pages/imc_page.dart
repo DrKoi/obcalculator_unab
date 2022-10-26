@@ -40,6 +40,12 @@ class _ImcPageState extends State<ImcPage> {
 
   TextFormField campoPesoGestante() {
     return TextFormField(
+      validator: (valor) {
+        if (valor == null || valor.isEmpty) {
+          return 'Indique peso';
+        }
+        return null;
+      },
       decoration: InputDecoration(labelText: 'Peso (kg)'),
       controller: pesoCtrl,
       keyboardType: TextInputType.number,
@@ -49,6 +55,12 @@ class _ImcPageState extends State<ImcPage> {
 
   TextFormField campoEstaturaGestante() {
     return TextFormField(
+      validator: (valor) {
+        if (valor == null || valor.isEmpty) {
+          return 'Indique estatura';
+        }
+        return null;
+      },
       decoration: InputDecoration(labelText: 'Estatura (m)'),
       controller: estaturaCtrl,
       keyboardType: TextInputType.number,
@@ -58,6 +70,12 @@ class _ImcPageState extends State<ImcPage> {
 
   TextFormField campoSemanasEmbarazo() {
     return TextFormField(
+      validator: (valor) {
+        if (valor == null || valor.isEmpty) {
+          return 'Indique cantidad de semanas';
+        }
+        return null;
+      },
       decoration:
           InputDecoration(labelText: 'Semanas de embarazo', hintText: 'ej: 21'),
       controller: semanasCtrl,
@@ -70,26 +88,32 @@ class _ImcPageState extends State<ImcPage> {
     return Container(
         child: ElevatedButton.icon(
             onPressed: (() {
-              setState(() {
-                showDialog(
-                    context: context,
-                    builder: ((context) {
-                      double estatura =
-                          double.tryParse(estaturaCtrl.text.trim()) ?? 0;
-                      double peso = double.tryParse(pesoCtrl.text.trim()) ?? 0;
-                      int semanas = int.tryParse(semanasCtrl.text.trim()) ?? 0;
-                      calcularImc(estatura, peso);
-                      return AlertDialog(
-                          content: Text('Gestante de ' +
-                              semanas.toString() +
-                              ' de peso ' +
-                              peso.toString() +
-                              ' y estatura ' +
-                              estatura.toString() +
-                              'Indice de masa corporal:  ' +
-                              imc.toString()));
-                    }));
-              });
+              if (formKey.currentState!.validate()) {
+                //form ok
+
+                setState(() {
+                  showDialog(
+                      context: context,
+                      builder: ((context) {
+                        double estatura =
+                            double.tryParse(estaturaCtrl.text.trim()) ?? 0;
+                        double peso =
+                            double.tryParse(pesoCtrl.text.trim()) ?? 0;
+                        int semanas =
+                            int.tryParse(semanasCtrl.text.trim()) ?? 0;
+                        calcularImc(estatura, peso);
+                        return AlertDialog(
+                            content: Text('Gestante de ' +
+                                semanas.toString() +
+                                ' semanas, de peso ' +
+                                peso.toString() +
+                                ' y estatura ' +
+                                estatura.toString() +
+                                'Indice de masa corporal:  ' +
+                                imc.toString()));
+                      }));
+                });
+              }
             }),
             icon: Icon(MdiIcons.calculator),
             label: Text('Calcular')));
