@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class EdadGestacionalPage extends StatefulWidget {
@@ -93,12 +94,22 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                           fechaSeleccionada.month - 3,
                           fechaSeleccionada.day + 7);
                       // fFecha.format(fechaSelMenosTres);
-                      Duration edadGestacional =
-                          DateTime.now().difference(fechaSeleccionada);
-
+                      /* Duration edadGestacional =
+                          DateTime.now().difference(fechaSeleccionada); */
+                      var edadGestacionalSemanas = Jiffy([
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day
+                      ]).diff(
+                          Jiffy([
+                            fechaSeleccionada.year,
+                            fechaSeleccionada.month,
+                            fechaSeleccionada.day
+                          ]),
+                          Units.WEEK);
                       return AlertDialog(
                         content: Text(
-                            'La edad gestacional es de ${edadGestacional.inDays} días y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
+                            'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
                       );
                     }));
               });
