@@ -105,7 +105,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                       //Duration mesesAtras = fechaSeleccionada.difference();
                       /* var fechaDiasAdded =
                           fechaSeleccionada.add(Duration(days: 7)); */
-                      var fechaMesesSubstracted = DateTime(
+                      var fechaPP = DateTime(
                           fechaSeleccionada.year + 1,
                           fechaSeleccionada.month - 3,
                           fechaSeleccionada.day + 7);
@@ -124,10 +124,10 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                           ]),
                           Units.WEEK);
                       datos.add(edadGestacionalSemanas);
-                      datos.add(fFecha.format(fechaMesesSubstracted));
+                      datos.add(fFecha.format(fechaPP));
                       return AlertDialog(
                         content: Text(
-                            'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
+                            'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaPP)}'),
                       );
                     }));
               });
