@@ -14,6 +14,8 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
+  bool buttonPressed = false;
+  late final datos = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,19 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               ),
             ),
           ),
+          Expanded(
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    if (buttonPressed) {
+                      //   setState(() {});
+                      return ListTile(
+                        title: Text(datos[index].toString()),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                  itemCount: datos.length))
         ],
       ),
     );
@@ -80,6 +95,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
     return Container(
         child: ElevatedButton.icon(
             onPressed: (() {
+              buttonPressed = true;
               setState(() {
                 showDialog(
                     context: context,
@@ -107,6 +123,8 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                             fechaSeleccionada.day
                           ]),
                           Units.WEEK);
+                      datos.add(edadGestacionalSemanas);
+                      datos.add(fFecha.format(fechaMesesSubstracted));
                       return AlertDialog(
                         content: Text(
                             'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
