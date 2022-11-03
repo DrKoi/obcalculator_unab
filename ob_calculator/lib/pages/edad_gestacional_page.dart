@@ -39,7 +39,10 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(children: [
-                  campoFurPicker(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: campoFurPicker(),
+                  ),
                   botonCalcular(),
                 ]),
               ),
@@ -49,15 +52,24 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               child: ListView.builder(
                   itemBuilder: (context, index) {
                     if (buttonPressed) {
-                      //   setState(() {});
-                      return ListTile(
-                        title: Text(datos[index].toString()),
+                      //setState(() {});
+                      return Column(
+                        children: [
+                          Container(
+                            child: Text(
+                                'La edad gestacional es de ${datos[0].toString()}'),
+                          ),
+                          Container(
+                            child: Text(
+                                'La fecha probable de parto es ${datos[1].toString()}'),
+                          ),
+                        ],
                       );
                     } else {
                       return Container();
                     }
                   },
-                  itemCount: datos.length))
+                  itemCount: 1))
         ],
       ),
     );
@@ -68,9 +80,9 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
       children: [
         Text('Fecha última regla: ',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Spacer(),
         Text(fFecha.format(fechaSeleccionada),
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        Spacer(),
         IconButton(
             onPressed: () {
               showDatePicker(
@@ -85,7 +97,10 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                 });
               });
             },
-            icon: Icon(MdiIcons.calendarOutline)),
+            icon: Icon(
+              MdiIcons.calendar,
+              color: Colors.red,
+            )),
       ],
     );
   }
@@ -95,41 +110,50 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
     return Container(
         child: ElevatedButton.icon(
             onPressed: (() {
+              datos.clear();
               buttonPressed = true;
               setState(() {
-                showDialog(
-                    context: context,
-                    builder: ((context) {
-                      /* var dia = fechaSeleccionada.toString().substring(0, 3);
-                      var mes = fechaSeleccionada.toString().substring(3, 5); */
-                      //Duration mesesAtras = fechaSeleccionada.difference();
-                      /* var fechaDiasAdded =
-                          fechaSeleccionada.add(Duration(days: 7)); */
-                      var fechaMesesSubstracted = DateTime(
-                          fechaSeleccionada.year + 1,
-                          fechaSeleccionada.month - 3,
-                          fechaSeleccionada.day + 7);
-                      // fFecha.format(fechaSelMenosTres);
-                      /* Duration edadGestacional =
+                var fechaMesesSubstracted = DateTime(fechaSeleccionada.year + 1,
+                    fechaSeleccionada.month - 3, fechaSeleccionada.day + 7);
+                // fFecha.format(fechaSelMenosTres);
+                /* Duration edadGestacional =
                           DateTime.now().difference(fechaSeleccionada); */
-                      var edadGestacionalSemanas = Jiffy([
-                        DateTime.now().year,
-                        DateTime.now().month,
-                        DateTime.now().day
-                      ]).diff(
-                          Jiffy([
-                            fechaSeleccionada.year,
-                            fechaSeleccionada.month,
-                            fechaSeleccionada.day
-                          ]),
-                          Units.WEEK);
-                      datos.add(edadGestacionalSemanas);
-                      datos.add(fFecha.format(fechaMesesSubstracted));
-                      return AlertDialog(
+                var edadGestacionalSemanas = Jiffy([
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day
+                ]).diff(
+                    Jiffy([
+                      fechaSeleccionada.year,
+                      fechaSeleccionada.month,
+                      fechaSeleccionada.day
+                    ]),
+                    Units.WEEK);
+                var edadGestacionalDias = (Jiffy([
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day
+                    ]).diff(
+                        Jiffy([
+                          fechaSeleccionada.year,
+                          fechaSeleccionada.month,
+                          fechaSeleccionada.day
+                        ]),
+                        Units.DAY) %
+                    7);
+                if (edadGestacionalDias == 0) {
+                  datos.add(edadGestacionalSemanas.toString() + ' semanas ');
+                } else {
+                  datos.add(edadGestacionalSemanas.toString() +
+                      ' semanas y ' +
+                      edadGestacionalDias.toString() +
+                      ' días ');
+                }
+                datos.add(fFecha.format(fechaMesesSubstracted));
+                /* return AlertDialog(
                         content: Text(
                             'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
-                      );
-                    }));
+                      ); */
               });
             }),
             icon: Icon(MdiIcons.calculator),
