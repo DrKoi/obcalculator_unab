@@ -41,6 +41,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   jiffy: ^5.0.0
+  circular_widgets: ^2.1.0
 
 dev_dependencies:
   flutter_test:
