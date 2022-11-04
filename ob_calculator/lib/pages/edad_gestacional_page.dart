@@ -99,7 +99,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
             },
             icon: Icon(
               MdiIcons.calendar,
-              color: Colors.red,
+              //color: Colors.red,
             )),
       ],
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
 
 import '../models/pagina_model.dart';
+import 'disco_page.dart';
 import 'edad_gestacional_page.dart';
 import 'fur_operacional_page.dart';
 import 'carta_astral_page.dart';
@@ -15,22 +17,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ZoomDrawerController zCtrl = ZoomDrawerController();
   int paginaSel = 0;
   List<Pagina> paginas = [
     Pagina(
-        iconoPagina: Icon(MdiIcons.babyBottle),
+        iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
         pathPagina: EdadGestacionalPage()),
     Pagina(
-        iconoPagina: Icon(MdiIcons.babyBottle),
+        iconoPagina: Icon(MdiIcons.doctor),
         nombrePagina: 'FUR Operacional',
         pathPagina: FurOperacionalPage()),
     Pagina(
-        iconoPagina: Icon(MdiIcons.babyBottle),
+        iconoPagina: Icon(MdiIcons.weight),
         nombrePagina: 'IMC',
         pathPagina: ImcPage()),
     Pagina(
-        iconoPagina: Icon(MdiIcons.babyBottle),
+        iconoPagina: Icon(MdiIcons.disc),
+        nombrePagina: 'Disco Gestacional',
+        pathPagina: DiscoPage()),
+    Pagina(
+        iconoPagina: Icon(MdiIcons.spaceInvaders),
         nombrePagina: 'Carta Astral',
         pathPagina: CartaAstralPage()),
   ];

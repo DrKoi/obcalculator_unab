@@ -100,7 +100,7 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
             });
           },
           icon: Icon(MdiIcons.calendar),
-          color: Colors.red,
+          //color: Colors.red,
         ),
       ],
     );
