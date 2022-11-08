@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
-
+import 'package:ob_calculator/widgets/bottom_nav_bar.dart';
 import '../models/pagina_model.dart';
 import 'disco_page.dart';
 import 'edad_gestacional_page.dart';
@@ -45,43 +45,39 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Obtetricia Calculadora'),
-        ),
-        body: paginas[paginaSel].pathPagina,
-        drawer: Drawer(
-          child: Column(
-            children: [
-              DrawerHeader(
-                  child: Container(
-                child: Text('UNAB Ob Calculator'),
-              )),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: paginas.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: paginas[index].iconoPagina,
-                      title: Text(paginas[index].nombrePagina),
-                      onTap: () =>
-                          navegar(context, paginas.indexOf(paginas[index])),
-                    );
-                  },
-                ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        //title: Text('Obtetricia Calculadora'),
+      ),
+      body: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 25),
+          child: paginas[paginaSel].pathPagina),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            DrawerHeader(
+                child: Container(
+              child: Text('UNAB Ob Calculator'),
+            )),
+            Expanded(
+              child: ListView.builder(
+                itemCount: paginas.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    leading: paginas[index].iconoPagina,
+                    title: Text(paginas[index].nombrePagina),
+                    onTap: () =>
+                        navegar(context, paginas.indexOf(paginas[index])),
+                  );
+                },
               ),
-            ],
-          ),
-        )
-
-        /* bottomNavigationBar:
-          BottomNavigationBar(backgroundColor: Colors.red, items: [
-        BottomNavigationBarItem(
-            icon: Icon(MdiIcons.faceWomanOutline),
-            label: 'Fecha Probable de Parto'),
-        BottomNavigationBarItem(
-            icon: Icon(MdiIcons.babyFaceOutline), label: 'Edad Gestacional'),
-      ]), */
-        );
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavWid(),
+    );
   }
 
   void navegar(BuildContext context, int numPagina) {

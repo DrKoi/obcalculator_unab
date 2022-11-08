@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ob_calculator/pages/disco_page.dart';
 import 'package:ob_calculator/pages/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ob_calculator/widgets/zoom.dart';
@@ -27,12 +28,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       supportedLocales: [const Locale('es')],
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         //colorScheme: ColorScheme(brightness: Brightness.light, primary: p, onPrimary: Colors.white, secondary: rojo, onSecondary: Colors.white, error: p, onError: Colors.white, background: rojo, onBackground: Colors.white, surface: rojo.withOpacity(10), onSurface: Colors.white,),
         primarySwatch: Colors.red,
         primaryColor: p,
-        
+
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),
