@@ -18,29 +18,22 @@ class _DiscoPageState extends State<DiscoPage> {
     return Scaffold(
       body: Container(
         child: Stack(children: [
-          ShaderMask(
-            shaderCallback: ((rect) {
-              return SweepGradient(
-                      startAngle: degToRad(0),
-                      endAngle: degToRad(184),
-                      stops: [progressVal, progressVal],
-                      colors: [Colors.red.shade200, Colors.grey.withAlpha(50)],
-                      transform: GradientRotation(degToRad(170)))
-                  .createShader(rect);
-            }),
-            child: Center(
-              child: CustomArc(),
-            ),
+          //Center(child: CustomArc()),
+          Center(
+            child: Image(
+                height: kDiameter + 100,
+                fit: BoxFit.cover,
+                image: AssetImage('assets/Circular_calendar.png')),
           ),
           Center(
               child: Container(
-            width: kDiameter - 30,
-            height: kDiameter - 30,
+            width: kDiameter,
+            height: kDiameter,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.transparent,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   width: 20,
                   style: BorderStyle.solid,
                 ),
@@ -58,7 +51,7 @@ class _DiscoPageState extends State<DiscoPage> {
               initialValue: 1,
               appearance: CircularSliderAppearance(
                   size: kDiameter - 150,
-                  startAngle: 268,
+                  startAngle: 269,
                   angleRange: 360,
                   customColors: CustomSliderColors(
                     dotColor: Colors.red,
@@ -68,12 +61,13 @@ class _DiscoPageState extends State<DiscoPage> {
                   ),
                   spinnerMode: false),
               onChange: (double value) {
+                //var fecha = ;
                 print(value);
               },
               innerWidget: (percentage) => Center(
                 child: Text(
                   '${percentage.toInt()} días',
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 30, color: Colors.white),
                 ),
               ),
             ),

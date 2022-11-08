@@ -18,7 +18,7 @@ class CustomArcPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.red
+      ..color = Color(0xff001B2B)
       ..strokeWidth = 9.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
@@ -32,12 +32,12 @@ class CustomArcPainter extends CustomPainter {
               width: size.width,
               height: size.height),
           pi,
-          pi);
+          2 * pi);
 
     Path dashPath = Path();
-    double dashWidth = 9.0;
+    double dashWidth = 85.0;
     double dashSpace = 10;
-    double distance = 3;
+    double distance = 10;
 
     for (PathMetric pathMetric in path.computeMetrics()) {
       while (distance < pathMetric.length) {
@@ -49,6 +49,7 @@ class CustomArcPainter extends CustomPainter {
     }
 
     canvas.drawPath(dashPath, paint);
+    //canvas.drawCircle(Offset(200, 200), 200, paint);
   }
 
   @override

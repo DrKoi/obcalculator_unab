@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         //title: Text('Obtetricia Calculadora'),
       ),
       body: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 25),
+          minimum: EdgeInsets.symmetric(horizontal: 10),
           child: paginas[paginaSel].pathPagina),
       drawer: Drawer(
         child: Column(
