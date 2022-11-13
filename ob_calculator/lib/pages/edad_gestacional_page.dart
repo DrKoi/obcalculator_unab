@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../widgets/disco_widget.dart';
+
 class EdadGestacionalPage extends StatefulWidget {
   const EdadGestacionalPage({super.key});
 
@@ -22,7 +24,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
     return Scaffold(
       body: Column(
         children: [
-          Center(
+          /* Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -32,6 +34,10 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                 ),
               ),
             ),
+          ), */
+          Expanded(
+            child: disco(progressVal: 0.5),
+            flex: 3,
           ),
           Expanded(
             child: Form(
@@ -48,28 +54,27 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               ),
             ),
           ),
-          Expanded(
-              child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (buttonPressed) {
-                      //setState(() {});
-                      return Column(
-                        children: [
-                          Container(
-                            child: Text(
-                                'La edad gestacional es de ${datos[0].toString()}'),
-                          ),
-                          Container(
-                            child: Text(
-                                'La fecha probable de parto es ${datos[1].toString()}'),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                  itemCount: 1))
+          FutureBuilder(
+            builder: (context, index) {
+              if (buttonPressed) {
+                //setState(() {});
+                return Column(
+                  children: [
+                    Container(
+                      child: Text(
+                          'La edad gestacional es de ${datos[0].toString()}'),
+                    ),
+                    Container(
+                      child: Text(
+                          'La fecha probable de parto es ${datos[1].toString()}'),
+                    ),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            },
+          )
         ],
       ),
     );

@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 10),
           child: paginas[paginaSel].pathPagina),
-      drawer: Drawer(
+      /* drawer: Drawer(
         child: Column(
           children: [
             DrawerHeader(
@@ -75,8 +75,22 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavWid(),
+      ), */
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: paginaSel,
+          onTap: (index) {
+            setState(() {
+              paginaSel = index;
+            });
+            //navegar(context, paginaSel);
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(MdiIcons.wheelBarrow), label: 'Wheel'),
+            BottomNavigationBarItem(icon: Icon(MdiIcons.doctor), label: 'Eco'),
+            BottomNavigationBarItem(icon: Icon(MdiIcons.weight), label: 'IMC')
+          ]),
     );
   }
 

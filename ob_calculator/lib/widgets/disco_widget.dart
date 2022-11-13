@@ -2,25 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ob_calculator/constants.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
-import '../widgets/custom_draw.dart';
-
-class DiscoPage extends StatefulWidget {
-  const DiscoPage({super.key});
-
-  @override
-  State<DiscoPage> createState() => _DiscoPageState();
-}
-
-class _DiscoPageState extends State<DiscoPage> {
-  double progressVal = 0.5;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: disco(progressVal: progressVal),
-    );
-  }
-}
-
 class disco extends StatelessWidget {
   const disco({
     Key? key,
@@ -32,18 +13,19 @@ class disco extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       child: Stack(children: [
         //Center(child: CustomArc()),
         Center(
           child: Image(
-              height: kDiameter + 100,
+              width: kDiameter + 100,
               fit: BoxFit.cover,
               image: AssetImage('assets/Circular_calendar.png')),
         ),
         Center(
             child: Container(
-          width: kDiameter,
-          height: kDiameter,
+          width: kDiameter * 0.9,
+          height: kDiameter * 0.9,
           decoration: BoxDecoration(
               color: Colors.transparent,
               shape: BoxShape.circle,
@@ -61,6 +43,8 @@ class disco extends StatelessWidget {
                     offset: Offset(1, 3))
               ]),
           child: SleekCircularSlider(
+            //onChangeStart: ,
+            //onChangeEnd: ,
             min: kMin,
             max: kMax,
             initialValue: 1,
@@ -76,13 +60,45 @@ class disco extends StatelessWidget {
                 ),
                 spinnerMode: false),
             onChange: (double value) {
-              //var fecha = ;
+              //var fecha = value.toInt();
+
               print(value);
             },
-            innerWidget: (percentage) => Center(
-              child: Text(
-                '${percentage.toInt()} días',
-                style: TextStyle(fontSize: 30, color: Colors.white),
+            innerWidget: (value) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${value.toInt()} días',
+                          style: TextStyle(fontSize: 30, color: Colors.white),
+                        ),
+                        Text(
+                          'Fecha probable de parto',
+                          style: TextStyle(fontSize: 10, color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${value.toInt()} días',
+                          style: TextStyle(fontSize: 30, color: Colors.white),
+                        ),
+                        Text(
+                          'Fecha última regla',
+                          style: TextStyle(fontSize: 10, color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

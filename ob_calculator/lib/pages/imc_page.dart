@@ -24,10 +24,29 @@ class _ImcPageState extends State<ImcPage> {
             padding: const EdgeInsets.all(8.0),
             child: ListView(children: [
               Container(
-                  child: Text(
-                'Cálculo de IMC',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration:
+                          InputDecoration(label: Text('Datos Gestante:')),
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(label: Text('Datos Bebé:')),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 40),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      child: Text(
+                    'Cálculo de IMC',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+                ),
+              ),
               Divider(),
               campoEstaturaGestante(),
               campoPesoGestante(),
