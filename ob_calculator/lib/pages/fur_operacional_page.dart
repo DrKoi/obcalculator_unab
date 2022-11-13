@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/pages/mostrar_datos.dart';
 
 class FurOperacionalPage extends StatefulWidget {
   const FurOperacionalPage({super.key});
@@ -47,7 +48,7 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
               ),
             ),
           ),
-          Expanded(
+          /* Expanded(
               child: ListView.builder(
                   itemBuilder: (context, index) {
                     if (buttonPressed) {
@@ -68,7 +69,7 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                       return Container();
                     }
                   },
-                  itemCount: 1))
+                  itemCount: 1)) */
         ],
       ),
     );
@@ -160,6 +161,12 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                       ' días ');
                 }
                 datos.add(fFecha.format(fechaMesesSubstracted));
+              });
+              MaterialPageRoute route = MaterialPageRoute(
+                builder: (context) => MostrarDatos(datos),
+              );
+              Navigator.push(context, route).then((value) {
+                setState(() {});
               });
             }),
             icon: Icon(MdiIcons.calculator),

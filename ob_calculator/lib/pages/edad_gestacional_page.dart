@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/pages/mostrar_datos.dart';
 
 import '../widgets/disco_widget.dart';
 
@@ -54,7 +55,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               ),
             ),
           ),
-          FutureBuilder(
+          /* FutureBuilder(
             builder: (context, index) {
               if (buttonPressed) {
                 //setState(() {});
@@ -74,7 +75,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                 return Container();
               }
             },
-          )
+          ) */
         ],
       ),
     );
@@ -159,6 +160,12 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                         content: Text(
                             'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),
                       ); */
+              });
+              MaterialPageRoute route = MaterialPageRoute(
+                builder: (context) => MostrarDatos(datos),
+              );
+              Navigator.push(context, route).then((value) {
+                setState(() {});
               });
             }),
             icon: Icon(MdiIcons.calculator),
