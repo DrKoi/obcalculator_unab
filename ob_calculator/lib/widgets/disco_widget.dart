@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:ob_calculator/constants.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
@@ -60,9 +61,10 @@ class disco extends StatelessWidget {
                 ),
                 spinnerMode: false),
             onChange: (double value) {
-              //var fecha = value.toInt();
-
-              print(value);
+              var fecha = DateTime.now;
+              if (value > 0 && value < 31) {
+                print(value);
+              }
             },
             innerWidget: (value) => Center(
               child: Column(

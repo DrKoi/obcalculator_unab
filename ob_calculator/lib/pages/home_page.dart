@@ -1,3 +1,4 @@
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ZoomDrawerController zCtrl = ZoomDrawerController();
+  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
   int paginaSel = 0;
   List<Pagina> paginas = [
     Pagina(
@@ -45,13 +46,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        //title: Text('Obtetricia Calculadora'),
-      ),
+      appBar: null,
       body: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 10),
+          minimum: EdgeInsets.symmetric(horizontal: 5),
           child: paginas[paginaSel].pathPagina),
       /* drawer: Drawer(
         child: Column(
@@ -76,21 +73,64 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ), */
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: paginaSel,
-          onTap: (index) {
-            setState(() {
-              paginaSel = index;
-            });
-            //navegar(context, paginaSel);
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(MdiIcons.wheelBarrow), label: 'Wheel'),
-            BottomNavigationBarItem(icon: Icon(MdiIcons.doctor), label: 'Eco'),
-            BottomNavigationBarItem(icon: Icon(MdiIcons.weight), label: 'IMC')
-          ]),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.red.withAlpha(10),
+                blurRadius: 20,
+                spreadRadius: 10,
+              )
+            ],
+            border: Border.all(width: 10, color: Colors.white),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+        child: BottomNavigationBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            unselectedItemColor: Colors.grey.withAlpha(100),
+            type: BottomNavigationBarType.fixed,
+            currentIndex: paginaSel,
+            onTap: (index) {
+              setState(() {
+                paginaSel = index;
+              });
+              //navegar(context, paginaSel);
+            },
+            items: [
+              /*  Builder(builder: (context) {
+          return FabCircularMenu(key: fabKey, children: [
+            RawMaterialButton(
+              child: Icon(MdiIcons.wheelBarrow),
+              onPressed: () {
+                setState(() {
+                  paginaSel = 0;
+                });
+              },
+            ),
+            RawMaterialButton(
+              child: Icon(MdiIcons.doctor),
+              onPressed: () {
+                setState(() {
+                  paginaSel = 1;
+                });
+              },
+            ),
+            RawMaterialButton(
+              child: Icon(MdiIcons.weight),
+              onPressed: () {
+                setState(() {
+                  paginaSel = 2;
+                });
+              },
+            ), */
+              BottomNavigationBarItem(
+                  icon: Icon(MdiIcons.wheelBarrow), label: 'Wheel'),
+              BottomNavigationBarItem(
+                  icon: Icon(MdiIcons.doctor), label: 'Eco'),
+              BottomNavigationBarItem(icon: Icon(MdiIcons.weight), label: 'IMC')
+            ]),
+      ),
     );
   }
 

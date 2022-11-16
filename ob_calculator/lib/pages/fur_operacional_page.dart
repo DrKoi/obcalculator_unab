@@ -113,6 +113,12 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
           labelText: 'Semanas Ecografia', border: OutlineInputBorder()),
       controller: semanasCtrl,
       keyboardType: TextInputType.number,
+      validator: (valor) {
+        if (valor == null || valor.isEmpty) {
+          return 'Campo necesario';
+        }
+        return null;
+      },
     );
   }
 

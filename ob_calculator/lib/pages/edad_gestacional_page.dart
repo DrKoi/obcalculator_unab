@@ -85,10 +85,10 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
     return Row(
       children: [
         Text('Fecha última regla: ',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         Spacer(),
         Text(fFecha.format(fechaSeleccionada),
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         IconButton(
             onPressed: () {
               showDatePicker(
@@ -105,7 +105,8 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
             },
             icon: Icon(
               MdiIcons.calendar,
-              //color: Colors.red,
+              size: 30,
+              color: Color(0xFF001B2B),
             )),
       ],
     );
@@ -114,6 +115,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
   //String edadGestacional = '';
   Container botonCalcular() {
     return Container(
+        height: 50,
         child: ElevatedButton.icon(
             onPressed: (() {
               datos.clear();
