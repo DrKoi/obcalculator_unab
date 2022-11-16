@@ -18,7 +18,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
   bool buttonPressed = false;
-  late final datos = [];
+  final List<dynamic> datos = ['---', '---'];
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,12 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
             ),
           ), */
           Expanded(
-            child: disco(progressVal: 0.5),
+            child: disco(
+              progressVal: 0.5,
+              fFecha: fFecha,
+              fecha: fechaSeleccionada,
+              datos: datos,
+            ),
             flex: 3,
           ),
           Expanded(

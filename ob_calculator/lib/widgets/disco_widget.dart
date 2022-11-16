@@ -7,10 +7,17 @@ class disco extends StatelessWidget {
   const disco({
     Key? key,
     required this.progressVal,
+    required this.fFecha,
+    required this.fecha,
+    required this.datos,
+    /* required this.buttonPressed */
   }) : super(key: key);
 
   final double progressVal;
-
+  final fFecha;
+  final fecha;
+  final datos;
+  //dynamic buttonPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,44 +68,108 @@ class disco extends StatelessWidget {
                 ),
                 spinnerMode: false),
             onChange: (double value) {
-              var fecha = DateTime.now;
-              if (value > 0 && value < 31) {
-                print(value);
+              datos.clear();
+              var fechaMesesSubstracted =
+                  DateTime(fecha.year + 1, fecha.month - 3, fecha.day + 7);
+              var edadGestacionalSemanas = Jiffy([
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day
+              ]).diff(Jiffy([fecha.year, fecha.month, fecha.day]), Units.WEEK);
+              var edadGestacionalDias = (Jiffy([
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day
+                  ]).diff(
+                      Jiffy([fecha.year, fecha.month, fecha.day]), Units.DAY) %
+                  7);
+              if (edadGestacionalDias == 0 && edadGestacionalSemanas == 0) {
+                datos.add('---');
+              } else {
+                if (edadGestacionalDias == 0) {
+                  datos.add(edadGestacionalSemanas.toString() + ' semanas ');
+                } else {
+                  if (edadGestacionalSemanas == 0) {
+                    if (edadGestacionalDias == 1) {
+                      datos.add(edadGestacionalDias.toString() + ' día');
+                    }
+                    datos.add(edadGestacionalDias.toString() + ' días ');
+                  } else {
+                    if (edadGestacionalDias == 1) {
+                      if (edadGestacionalSemanas == 1) {
+                        datos.add(edadGestacionalSemanas.toString() +
+                            ' semana y ' +
+                            edadGestacionalDias.toString() +
+                            ' día ');
+                      } else {
+                        datos.add(edadGestacionalSemanas.toString() +
+                            ' semanas y ' +
+                            edadGestacionalDias.toString() +
+                            ' día');
+                      }
+                    } else {
+                      if (edadGestacionalSemanas == 1) {
+                        datos.add(edadGestacionalSemanas.toString() +
+                            ' semana y ' +
+                            edadGestacionalDias.toString() +
+                            ' días ');
+                      }
+                      datos.add(edadGestacionalSemanas.toString() +
+                          ' semanas y ' +
+                          edadGestacionalDias.toString() +
+                          ' días ');
+                    }
+                  }
+                }
               }
+              datos.add(Jiffy(fechaMesesSubstracted).yMMMd);
             },
             innerWidget: (value) => Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${value.toInt()} días',
-                          style: TextStyle(fontSize: 30, color: Colors.white),
-                        ),
-                        Text(
-                          'Fecha probable de parto',
-                          style: TextStyle(fontSize: 10, color: Colors.white70),
-                        ),
-                      ],
-                    ),
+                    child: Builder(builder: (context) {
+                      localeJiff();
+                      var fechaJiffy = Jiffy(fecha).yMMMd;
+                      //var fur = Jiffy(fechaJiffy).subtract();
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${datos[1]}',
+                            style: TextStyle(fontSize: 30, color: Colors.white),
+                          ),
+                          Text(
+                            'Fecha probable de parto',
+                            style:
+                                TextStyle(fontSize: 10, color: Colors.white70),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${value.toInt()} días',
-                          style: TextStyle(fontSize: 30, color: Colors.white),
-                        ),
-                        Text(
-                          'Fecha última regla',
-                          style: TextStyle(fontSize: 10, color: Colors.white70),
-                        ),
-                      ],
-                    ),
+                    child: Builder(builder: (context) {
+                      var fur = value;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${datos[0]}',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
+                          ),
+                          Text(
+                            'Edad Gestacional',
+                            style:
+                                TextStyle(fontSize: 10, color: Colors.white70),
+                          ),
+                        ],
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -107,5 +178,9 @@ class disco extends StatelessWidget {
         ))
       ]),
     );
+  }
+
+  void localeJiff() async {
+    await Jiffy.locale('es');
   }
 }
