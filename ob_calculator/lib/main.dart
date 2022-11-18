@@ -4,7 +4,6 @@ import 'package:jiffy/jiffy.dart';
 import 'package:ob_calculator/pages/disco_page.dart';
 import 'package:ob_calculator/pages/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ob_calculator/widgets/zoom.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
