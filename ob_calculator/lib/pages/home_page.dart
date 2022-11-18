@@ -1,9 +1,6 @@
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/config.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
-import 'package:ob_calculator/widgets/bottom_nav_bar.dart';
 import '../models/pagina_model.dart';
 import 'disco_page.dart';
 import 'edad_gestacional_page.dart';
@@ -18,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
   int paginaSel = 0;
   List<Pagina> paginas = [
     Pagina(
