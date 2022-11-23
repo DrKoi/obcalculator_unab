@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
 import '../models/pagina_model.dart';
+import 'disco_gestacional_page.dart';
 import 'disco_page.dart';
 import 'edad_gestacional_page.dart';
 import 'fur_operacional_page.dart';
@@ -20,7 +21,9 @@ class _HomePageState extends State<HomePage> {
     Pagina(
         iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
-        pathPagina: EdadGestacionalPage()),
+        //TODO:- cambiar por el disco
+        pathPagina: DiscoGestacionalPage()),
+    //------------------------------
     Pagina(
         iconoPagina: Icon(MdiIcons.doctor),
         nombrePagina: 'FUR Operacional',
@@ -29,14 +32,6 @@ class _HomePageState extends State<HomePage> {
         iconoPagina: Icon(MdiIcons.weight),
         nombrePagina: 'IMC',
         pathPagina: ImcPage()),
-    Pagina(
-        iconoPagina: Icon(MdiIcons.disc),
-        nombrePagina: 'Disco Gestacional',
-        pathPagina: DiscoPage()),
-    Pagina(
-        iconoPagina: Icon(MdiIcons.spaceInvaders),
-        nombrePagina: 'Carta Astral',
-        pathPagina: CartaAstralPage()),
   ];
   late int numPagina;
   @override
@@ -46,29 +41,6 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 5),
           child: paginas[paginaSel].pathPagina),
-      /* drawer: Drawer(
-        child: Column(
-          children: [
-            DrawerHeader(
-                child: Container(
-              child: Text('UNAB Ob Calculator'),
-            )),
-            Expanded(
-              child: ListView.builder(
-                itemCount: paginas.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: paginas[index].iconoPagina,
-                    title: Text(paginas[index].nombrePagina),
-                    onTap: () =>
-                        navegar(context, paginas.indexOf(paginas[index])),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ), */
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             boxShadow: [
@@ -94,32 +66,6 @@ class _HomePageState extends State<HomePage> {
               //navegar(context, paginaSel);
             },
             items: [
-              /*  Builder(builder: (context) {
-          return FabCircularMenu(key: fabKey, children: [
-            RawMaterialButton(
-              child: Icon(MdiIcons.wheelBarrow),
-              onPressed: () {
-                setState(() {
-                  paginaSel = 0;
-                });
-              },
-            ),
-            RawMaterialButton(
-              child: Icon(MdiIcons.doctor),
-              onPressed: () {
-                setState(() {
-                  paginaSel = 1;
-                });
-              },
-            ),
-            RawMaterialButton(
-              child: Icon(MdiIcons.weight),
-              onPressed: () {
-                setState(() {
-                  paginaSel = 2;
-                });
-              },
-            ), */
               BottomNavigationBarItem(
                   icon: Icon(MdiIcons.wheelBarrow), label: 'Wheel'),
               BottomNavigationBarItem(

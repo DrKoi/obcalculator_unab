@@ -17,6 +17,8 @@ class disco extends StatelessWidget {
   final fFecha;
   final fecha;
   final datos;
+
+  //get fechaSeleccionada => null;
   //dynamic buttonPressed;
   @override
   Widget build(BuildContext context) {
@@ -57,19 +59,21 @@ class disco extends StatelessWidget {
           //onChangeEnd: ,
           min: kMin,
           max: kMax,
-          initialValue: 1,
+          initialValue: Jiffy(fecha).dayOfYear.toDouble(),
           appearance: CircularSliderAppearance(
               size: kDiameter - 150,
               startAngle: 269,
               angleRange: 360,
               customColors: CustomSliderColors(
+                //progressBarColors: [Colors.red, azulUnab],
+                trackColor: Colors.red,
                 dotColor: Colors.red,
-                progressBarColor: Colors.transparent,
+                progressBarColor: azulUnab,
                 hideShadow: true,
                 dynamicGradient: true,
               ),
               spinnerMode: false),
-          onChange: (double value) {
+          onChange: /* (double value) {
             datos.clear();
             var fechaMesesSubstracted =
                 DateTime(fecha.year + 1, fecha.month - 3, fecha.day + 7);
@@ -125,7 +129,8 @@ class disco extends StatelessWidget {
               }
             }
             datos.add(Jiffy(fechaMesesSubstracted).yMMMd);
-          },
+          }, */
+              null,
           innerWidget: (value) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -144,14 +149,14 @@ class disco extends StatelessWidget {
                         ),
                         Text(
                           'Fecha probable de parto',
-                          style: TextStyle(fontSize: 10, color: Colors.white70),
+                          style: TextStyle(fontSize: 20, color: Colors.white70),
                         ),
                       ],
                     );
                   }),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Container(
                   child: Builder(builder: (context) {
@@ -161,11 +166,11 @@ class disco extends StatelessWidget {
                       children: [
                         Text(
                           '${datos[0]}',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: TextStyle(fontSize: 30, color: Colors.white),
                         ),
                         Text(
                           'Edad Gestacional',
-                          style: TextStyle(fontSize: 10, color: Colors.white70),
+                          style: TextStyle(fontSize: 20, color: Colors.white70),
                         ),
                       ],
                     );
@@ -175,7 +180,7 @@ class disco extends StatelessWidget {
             ),
           ),
         ),
-      ))
+      )),
     ]);
   }
 

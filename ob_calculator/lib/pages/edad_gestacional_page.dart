@@ -24,7 +24,33 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Expanded(
+            flex: 3,
+            child: IconButton(
+                iconSize: 200,
+                onPressed: () {
+                  showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2017),
+                    lastDate: DateTime.now(),
+                    locale: Locale('es', 'ES'),
+                  ).then((fecha) {
+                    setState(() {
+                      fechaSeleccionada = fecha ?? fechaSeleccionada;
+                    });
+                  });
+                },
+                icon: Image.asset(
+                    'assets/calendar_icon.png') /* Icon(
+                  MdiIcons.calendar,
+                  size: 200,
+                  color: Color(0xFF001B2B),
+                ) */
+                ),
+          ),
           /* Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -36,7 +62,8 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               ),
             ),
           ), */
-          Expanded(
+          //TODO: Agregar el disco junto con sus funcionalidades
+          /* Expanded(
             child: disco(
               progressVal: 0.5,
               fFecha: fFecha,
@@ -44,7 +71,7 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
               datos: datos,
             ),
             flex: 3,
-          ),
+          ), */
           Expanded(
             child: Form(
               key: formKey,
@@ -94,25 +121,6 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
         Spacer(),
         Text(fFecha.format(fechaSeleccionada),
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        IconButton(
-            onPressed: () {
-              showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2017),
-                lastDate: DateTime.now(),
-                locale: Locale('es', 'ES'),
-              ).then((fecha) {
-                setState(() {
-                  fechaSeleccionada = fecha ?? fechaSeleccionada;
-                });
-              });
-            },
-            icon: Icon(
-              MdiIcons.calendar,
-              size: 30,
-              color: Color(0xFF001B2B),
-            )),
       ],
     );
   }
@@ -154,15 +162,46 @@ class _EdadGestacionalPageState extends State<EdadGestacionalPage> {
                         ]),
                         Units.DAY) %
                     7);
-                if (edadGestacionalDias == 0) {
-                  datos.add(edadGestacionalSemanas.toString() + ' semanas ');
+                if (edadGestacionalDias == 0 && edadGestacionalSemanas == 0) {
+                  datos.add('---');
                 } else {
-                  datos.add(edadGestacionalSemanas.toString() +
-                      ' semanas y ' +
-                      edadGestacionalDias.toString() +
-                      ' días ');
+                  if (edadGestacionalDias == 0) {
+                    datos.add(edadGestacionalSemanas.toString() + ' semanas ');
+                  } else {
+                    if (edadGestacionalSemanas == 0) {
+                      if (edadGestacionalDias == 1) {
+                        datos.add(edadGestacionalDias.toString() + ' día');
+                      }
+                      datos.add(edadGestacionalDias.toString() + ' días ');
+                    } else {
+                      if (edadGestacionalDias == 1) {
+                        if (edadGestacionalSemanas == 1) {
+                          datos.add(edadGestacionalSemanas.toString() +
+                              ' semana y ' +
+                              edadGestacionalDias.toString() +
+                              ' día ');
+                        } else {
+                          datos.add(edadGestacionalSemanas.toString() +
+                              ' semanas y ' +
+                              edadGestacionalDias.toString() +
+                              ' día');
+                        }
+                      } else {
+                        if (edadGestacionalSemanas == 1) {
+                          datos.add(edadGestacionalSemanas.toString() +
+                              ' semana y ' +
+                              edadGestacionalDias.toString() +
+                              ' días ');
+                        }
+                        datos.add(edadGestacionalSemanas.toString() +
+                            ' semanas y ' +
+                            edadGestacionalDias.toString() +
+                            ' días ');
+                      }
+                    }
+                  }
                 }
-                datos.add(fFecha.format(fechaMesesSubstracted));
+                datos.add(Jiffy(fechaMesesSubstracted).yMMMd);
                 /* return AlertDialog(
                         content: Text(
                             'La edad gestacional es de ${edadGestacionalSemanas} semanas y la Fecha probable de parto es ${fFecha.format(fechaMesesSubstracted)}'),

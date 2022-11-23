@@ -23,17 +23,23 @@ class _ImcPageState extends State<ImcPage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(children: [
-              Container(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      decoration:
-                          InputDecoration(label: Text('Datos Gestante:')),
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(label: Text('Datos Bebé:')),
-                    )
-                  ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                            label: Text('Datos Gestante:'),
+                            border: OutlineInputBorder()),
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            label: Text('Datos Bebé:'),
+                            border: OutlineInputBorder()),
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 40),
@@ -65,7 +71,8 @@ class _ImcPageState extends State<ImcPage> {
         }
         return null;
       },
-      decoration: InputDecoration(labelText: 'Peso (kg)'),
+      decoration:
+          InputDecoration(labelText: 'Peso (kg)', border: OutlineInputBorder()),
       controller: pesoCtrl,
       keyboardType: TextInputType.number,
       //maxLength: 3,
@@ -80,7 +87,8 @@ class _ImcPageState extends State<ImcPage> {
         }
         return null;
       },
-      decoration: InputDecoration(labelText: 'Estatura (m)'),
+      decoration: InputDecoration(
+          labelText: 'Estatura (m)', border: OutlineInputBorder()),
       controller: estaturaCtrl,
       keyboardType: TextInputType.number,
       //maxLength: 3,
@@ -95,8 +103,10 @@ class _ImcPageState extends State<ImcPage> {
         }
         return null;
       },
-      decoration:
-          InputDecoration(labelText: 'Semanas de embarazo', hintText: 'ej: 21'),
+      decoration: InputDecoration(
+          labelText: 'Semanas de embarazo',
+          hintText: 'ej: 21',
+          border: OutlineInputBorder()),
       controller: semanasCtrl,
       keyboardType: TextInputType.number,
       maxLength: 3,

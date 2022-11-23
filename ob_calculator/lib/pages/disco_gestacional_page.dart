@@ -4,27 +4,36 @@ import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
 
-class FurOperacionalPage extends StatefulWidget {
-  const FurOperacionalPage({super.key});
+import '../widgets/disco_widget.dart';
+
+class DiscoGestacionalPage extends StatefulWidget {
+  const DiscoGestacionalPage({super.key});
 
   @override
-  State<FurOperacionalPage> createState() => _FurOperacionalPageState();
+  State<DiscoGestacionalPage> createState() => _DiscoGestacionalPageState();
 }
 
-class _FurOperacionalPageState extends State<FurOperacionalPage> {
-  TextEditingController semanasCtrl = TextEditingController();
-  TextEditingController diasCtrl = TextEditingController();
-
+class _DiscoGestacionalPageState extends State<DiscoGestacionalPage> {
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
   bool buttonPressed = false;
-  late final datos = [];
+  final List<dynamic> datos = ['---', '---'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
+          Expanded(
+            child: disco(
+              progressVal: 0.5,
+              fFecha: fFecha,
+              fecha: fechaSeleccionada,
+              datos: datos,
+            ),
+            flex: 3,
+          ),
           Expanded(
             child: Form(
               key: formKey,
@@ -33,131 +42,104 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                 child: ListView(children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: fechaEcoPicker(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: campoSemanasEco(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: campoDiasEco(),
+                    child: campoFurPicker(),
                   ),
                   botonCalcular(),
                 ]),
               ),
             ),
           ),
-          /* Expanded(
-              child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (buttonPressed) {
-                      //setState(() {});
-                      return Column(
-                        children: [
-                          Container(
-                            child: Text(
-                                'La edad gestacional es de ${datos[0].toString()}'),
-                          ),
-                          Container(
-                            child: Text(
-                                'La fecha probable de parto es ${datos[1].toString()}'),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                  itemCount: 1)) */
+          /* FutureBuilder(
+            builder: (context, index) {
+              if (buttonPressed) {
+                //setState(() {});
+                return Column(
+                  children: [
+                    Container(
+                      child: Text(
+                          'La edad gestacional es de ${datos[0].toString()}'),
+                    ),
+                    Container(
+                      child: Text(
+                          'La fecha probable de parto es ${datos[1].toString()}'),
+                    ),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            },
+          ) */
         ],
       ),
     );
   }
 
-  Row fechaEcoPicker() {
+  Row campoFurPicker() {
     return Row(
       children: [
-        Text(' Fecha ecografía: ',
-            style: TextStyle(
-              fontSize: 16,
-            )),
+        Text('Fecha última regla: ',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         Spacer(),
         Text(fFecha.format(fechaSeleccionada),
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        //Spacer(),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         IconButton(
-          onPressed: () {
-            showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(2017),
-              lastDate: DateTime.now(),
-              locale: Locale('es', 'ES'),
-            ).then((fecha) {
-              setState(() {
-                fechaSeleccionada = fecha ?? fechaSeleccionada;
+            color: Colors.grey,
+            onPressed: () {
+              showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2017),
+                lastDate: DateTime.now(),
+                locale: Locale('es', 'ES'),
+              ).then((fecha) {
+                setState(() {
+                  fechaSeleccionada = fecha ?? fechaSeleccionada;
+                });
               });
-            });
-          },
-          icon: Icon(MdiIcons.calendar),
-          //color: Colors.red,
-        ),
+            },
+            icon: Icon(
+              MdiIcons.calendar,
+              size: 30,
+              color: Color(0xFF001B2B),
+            )),
       ],
-    );
-  }
-
-  TextFormField campoSemanasEco() {
-    return TextFormField(
-      decoration: InputDecoration(
-          labelText: 'Semanas Ecografia', border: OutlineInputBorder()),
-      controller: semanasCtrl,
-      keyboardType: TextInputType.number,
-      validator: (valor) {
-        if (valor == null || valor.isEmpty) {
-          return 'Campo necesario';
-        }
-        return null;
-      },
-    );
-  }
-
-  TextFormField campoDiasEco() {
-    return TextFormField(
-      decoration: InputDecoration(
-          labelText: 'Días Ecografia', border: OutlineInputBorder()),
-      controller: diasCtrl,
-      keyboardType: TextInputType.number,
     );
   }
 
   Container botonCalcular() {
     return Container(
+        height: 50,
         child: ElevatedButton.icon(
             onPressed: (() {
-              buttonPressed = true;
               datos.clear();
+              buttonPressed = true;
               setState(() {
-                var semanas = int.tryParse(semanasCtrl.text.trim()) ?? 0;
-                var dias = int.tryParse(diasCtrl.text.trim()) ?? 0;
-                var fur = Jiffy(fechaSeleccionada)
-                    .subtract(weeks: semanas, days: dias);
-                var fechaMesesSubstracted =
-                    DateTime(fur.year + 1, fur.month - 3, fur.day + 7);
-                // fFecha.format(fechaSelMenosTres);
-                /* Duration edadGestacional =
-                          DateTime.now().difference(fechaSeleccionada); */
+                var fechaMesesSubstracted = DateTime(fechaSeleccionada.year + 1,
+                    fechaSeleccionada.month - 3, fechaSeleccionada.day + 7);
                 var edadGestacionalSemanas = Jiffy([
                   DateTime.now().year,
                   DateTime.now().month,
                   DateTime.now().day
-                ]).diff(Jiffy([fur.year, fur.month, fur.day]), Units.WEEK);
+                ]).diff(
+                    Jiffy([
+                      fechaSeleccionada.year,
+                      fechaSeleccionada.month,
+                      fechaSeleccionada.day
+                    ]),
+                    Units.WEEK);
                 var edadGestacionalDias = (Jiffy([
                       DateTime.now().year,
                       DateTime.now().month,
                       DateTime.now().day
-                    ]).diff(Jiffy([fur.year, fur.month, fur.day]), Units.DAY)) %
-                    7;
+                    ]).diff(
+                        Jiffy([
+                          fechaSeleccionada.year,
+                          fechaSeleccionada.month,
+                          fechaSeleccionada.day
+                        ]),
+                        Units.DAY) %
+                    7);
                 if (edadGestacionalDias == 0 && edadGestacionalSemanas == 0) {
                   datos.add('---');
                 } else {
@@ -199,12 +181,12 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                 }
                 datos.add(Jiffy(fechaMesesSubstracted).yMMMd);
               });
-              MaterialPageRoute route = MaterialPageRoute(
+              /* MaterialPageRoute route = MaterialPageRoute(
                 builder: (context) => MostrarDatos(datos),
               );
               Navigator.push(context, route).then((value) {
                 setState(() {});
-              });
+              }); */
             }),
             icon: Icon(MdiIcons.calculator),
             label: Text('Calcular')));
