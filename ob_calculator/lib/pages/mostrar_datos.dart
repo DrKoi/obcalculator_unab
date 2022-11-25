@@ -32,7 +32,7 @@ class _MostrarDatosState extends State<MostrarDatos> {
                         color: Colors.white,
                       ), */
                       Text(
-                        'Resultados',
+                        'Detalles',
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -49,6 +49,25 @@ class _MostrarDatosState extends State<MostrarDatos> {
                   ListTile(
                     title: Text('La fecha probable de parto es ' +
                         widget.datos[1].toString()),
+                  ),
+                  ListTile(
+                    title: Text('Peso del bebé: ' + widget.datos[2].toString()),
+                  ),
+                  ListTile(
+                    title:
+                        Text('Talla del bebé: ' + widget.datos[3].toString()),
+                  ),
+                  ListTile(
+                    title: Text(
+                        'Diámetro biparietal: ' + widget.datos[4].toString()),
+                  ),
+                  ListTile(
+                    title: Text(
+                        'Longitud del fémur: ' + widget.datos[5].toString()),
+                  ),
+                  ListTile(
+                    title:
+                        Text('Signo zodiacal: ' + widget.datos[6].toString()),
                   ),
                 ]),
               ),

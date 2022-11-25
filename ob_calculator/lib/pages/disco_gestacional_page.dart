@@ -140,6 +140,8 @@ class _DiscoGestacionalPageState extends State<DiscoGestacionalPage> {
                         ]),
                         Units.DAY) %
                     7);
+
+                //EDAD GESTACIONAL
                 if (edadGestacionalDias == 0 && edadGestacionalSemanas == 0) {
                   datos.add('---');
                 } else {
@@ -179,8 +181,39 @@ class _DiscoGestacionalPageState extends State<DiscoGestacionalPage> {
                     }
                   }
                 }
-                datos.add(Jiffy(fechaMesesSubstracted).yMMMd);
+                //FECHA PROBABLE DE PARTO
+                datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
+
+                //TODO: -PESO PROMEDIO DEL BEBÉ
+                if (edadGestacionalSemanas < 8) {
+                  datos.add('---');
+                } else if (edadGestacionalSemanas > 7) {
+                  datos.add('peso aproximado');
+                }
+                //TODO: -TALLA PROMEDIO DEL BEBÉ
+                if (edadGestacionalSemanas < 8) {
+                  datos.add('---');
+                } else if (edadGestacionalSemanas > 7) {
+                  datos.add('talla aproximada');
+                }
+                //TODO: -DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
+                if (edadGestacionalSemanas < 13) {
+                  datos.add('---');
+                } else if (edadGestacionalSemanas > 12) {
+                  datos.add('diametro biparietal aproximado');
+                }
+                //TODO: -LONGITUD DEL FÉMUR DEL BEBÉ
+                if (edadGestacionalSemanas < 13) {
+                  datos.add('---');
+                } else if (edadGestacionalSemanas > 12) {
+                  datos.add('longitud de fémur aproximado');
+                }
+
+                //TODO: SIGNO ZODIACAL
+                datos.add('signo zodiacal');
               });
+
+              //
               /* MaterialPageRoute route = MaterialPageRoute(
                 builder: (context) => MostrarDatos(datos),
               );

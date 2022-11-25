@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
 import '../models/pagina_model.dart';
+import 'disco_gestacional_page copy.dart';
 import 'disco_gestacional_page.dart';
 import 'disco_page.dart';
 import 'edad_gestacional_page.dart';
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
         iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
         //TODO:- cambiar por el disco
-        pathPagina: DiscoGestacionalPage()),
+        pathPagina: NewDiscoGestacionalPage()),
     //------------------------------
     Pagina(
         iconoPagina: Icon(MdiIcons.doctor),

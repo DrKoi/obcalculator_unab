@@ -67,8 +67,8 @@ class disco extends StatelessWidget {
               customColors: CustomSliderColors(
                 //progressBarColors: [Colors.red, azulUnab],
                 trackColor: Colors.red,
-                dotColor: Colors.red,
-                progressBarColor: azulUnab,
+                dotColor: azulUnab,
+                progressBarColor: Colors.transparent,
                 hideShadow: true,
                 dynamicGradient: true,
               ),
