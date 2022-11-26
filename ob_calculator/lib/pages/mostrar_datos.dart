@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/widgets/screen_display.dart';
 
 class MostrarDatos extends StatefulWidget {
   List<dynamic> datos;
@@ -14,14 +15,24 @@ class _MostrarDatosState extends State<MostrarDatos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: Text('Resultados')),
+      appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset('assets/logo_unab.png'),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: Text(
+            'Detalles',
+            style: TextStyle(color: Colors.black),
+          )),
       body: SafeArea(
           child: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Container(
+              /*  Container(
                 height: 50,
                 color: Color(0xFF001B2B),
                 child: Row(
@@ -38,36 +49,48 @@ class _MostrarDatosState extends State<MostrarDatos> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       )
+                    nicole.oyarzun@usm.cl
+
+
+
                     ]),
-              ),
+              ), */
               Expanded(
                 child: ListView(children: [
-                  ListTile(
-                    title: Text('La edad gestacional es de ' +
-                        widget.datos[0].toString()),
+                  WidgetButton(
+                    title: (widget.datos[0].toString()),
+                    subTitle: ('Edad Gestacional'),
+                    onTap: () {},
                   ),
-                  ListTile(
-                    title: Text('La fecha probable de parto es ' +
-                        widget.datos[1].toString()),
+                  WidgetButton(
+                    title: (widget.datos[1].toString()),
+                    subTitle: ('Fecha Probable de parto'),
+                    onTap: () {},
                   ),
-                  ListTile(
-                    title: Text('Peso del bebé: ' + widget.datos[2].toString()),
+                  WidgetButton(
+                    title: (widget.datos[2].toString()),
+                    subTitle: ('Peso Aproximado'),
+                    onTap: () {},
                   ),
-                  ListTile(
-                    title:
-                        Text('Talla del bebé: ' + widget.datos[3].toString()),
+                  WidgetButton(
+                    title: (widget.datos[3].toString()),
+                    subTitle: ('Talla Aproximada del bebé'),
+                    onTap: () {},
                   ),
-                  ListTile(
-                    title: Text(
-                        'Diámetro biparietal: ' + widget.datos[4].toString()),
+                  WidgetButton(
+                    title: (widget.datos[4].toString()),
+                    subTitle: ('Diámetro biparietal'),
+                    onTap: () {},
                   ),
-                  ListTile(
-                    title: Text(
-                        'Longitud del fémur: ' + widget.datos[5].toString()),
+                  WidgetButton(
+                    title: (widget.datos[5].toString()),
+                    subTitle: ('Longitud de femúr'),
+                    onTap: () {},
                   ),
-                  ListTile(
-                    title:
-                        Text('Signo zodiacal: ' + widget.datos[6].toString()),
+                  WidgetButton(
+                    title: (widget.datos[6].toString()),
+                    subTitle: ('Signo zodiacal'),
+                    onTap: () {},
                   ),
                 ]),
               ),

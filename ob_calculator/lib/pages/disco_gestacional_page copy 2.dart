@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -7,20 +7,30 @@ import 'package:ob_calculator/pages/mostrar_datos.dart';
 import '../models/dato_model.dart';
 import '../widgets/disco_widget.dart';
 
-class NewDiscoGestacionalPage extends StatefulWidget {
-  const NewDiscoGestacionalPage({super.key});
+class ConNewDiscoGestacionalPage extends StatefulWidget {
+  const ConNewDiscoGestacionalPage({super.key});
 
   @override
-  State<NewDiscoGestacionalPage> createState() =>
-      _NewDiscoGestacionalPageState();
+  State<ConNewDiscoGestacionalPage> createState() =>
+      _ConNewDiscoGestacionalPageState();
 }
 
-class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
+class _ConNewDiscoGestacionalPageState
+    extends State<ConNewDiscoGestacionalPage> {
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
   bool buttonPressed = false;
-  final List<dynamic> datos = ['---', '---', '---', '---', '---', '---', '---'];
+  //final List<dynamic> datos = ['---', '---', '---', '---', '---', '---', '---'];
+  final List<Dato> datos = [
+    Dato(titulo: '---', subtitulo: 'Edad Gestacional'),
+    Dato(titulo: '---', subtitulo: 'Fecha probable de parto'),
+    Dato(titulo: '---', subtitulo: 'Peso aproximado del bebé'),
+    Dato(titulo: '---', subtitulo: 'Talla aproximada del bebé'),
+    Dato(titulo: '---', subtitulo: 'Diametro biparietal aproximado'),
+    Dato(titulo: '---', subtitulo: 'Longitud de fémur'),
+    Dato(titulo: '---', subtitulo: 'Signo del zodiáco'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +120,14 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                     //EDAD GESTACIONAL
                     if (edadGestacionalDias == 0 &&
                         edadGestacionalSemanas == 0) {
-                      datos.add('---');
+                      datos.add(
+                          Dato(titulo: '---', subtitulo: 'Edad Gestacional'));
                     } else {
                       if (edadGestacionalDias == 0) {
-                        datos.add(
-                            edadGestacionalSemanas.toString() + ' semanas ');
+                        datos.add(Dato(
+                            titulo:
+                                edadGestacionalSemanas.toString() + ' semanas ',
+                            subtitulo: 'Edad Gestacional'));
                       } else {
                         if (edadGestacionalSemanas == 0) {
                           if (edadGestacionalDias == 1) {
@@ -1087,3 +1100,4 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
     }
   }
 }
+ */

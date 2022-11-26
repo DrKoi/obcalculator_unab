@@ -19,7 +19,7 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
   bool buttonPressed = false;
-  late final datos = [];
+  final List<dynamic> datos = ['---', '---', '---', '---', '---', '---', '---'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
