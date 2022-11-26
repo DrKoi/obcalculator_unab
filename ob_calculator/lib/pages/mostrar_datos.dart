@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/widgets/screen_display.dart';
 
+import '../widgets/heading.dart';
+
 class MostrarDatos extends StatefulWidget {
   List<dynamic> datos;
   //const MostrarDatos({super.key});
@@ -23,7 +25,7 @@ class _MostrarDatosState extends State<MostrarDatos> {
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text(
-            'Detalles',
+            'Datos adicionales',
             style: TextStyle(color: Colors.black),
           )),
       body: SafeArea(
@@ -32,29 +34,13 @@ class _MostrarDatosState extends State<MostrarDatos> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              /*  Container(
-                height: 50,
-                color: Color(0xFF001B2B),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      /* Icon(
-                        MdiIcons.earthBoxMinus,
-                        color: Colors.white,
-                      ), */
-                      Text(
-                        'Detalles',
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      )
-                    nicole.oyarzun@usm.cl
-
-
-
-                    ]),
-              ), */
+              const Heading(
+                title: "Detalles",
+                count: "7",
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: ListView(children: [
                   WidgetButton(

@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         pathPagina: FurOperacionalPage()),
     Pagina(
         iconoPagina: Icon(MdiIcons.weight),
-        nombrePagina: 'IMC',
+        nombrePagina: 'Información',
         pathPagina: ImcPage()),
   ];
   late int numPagina;
@@ -46,7 +46,43 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/logo_unab.png'),
         ),
-        actions: [],
+        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            'Calculadora ',
+            style: TextStyle(color: Colors.black, fontSize: 13),
+            textAlign: TextAlign.start,
+          ),
+          Text(
+            'Edad Gestacional ',
+            style: TextStyle(color: Colors.black),
+            textAlign: TextAlign.start,
+          ),
+        ]),
+        actions: [
+          PopupMenuButton(
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 50.0),
+              child: Icon(
+                MdiIcons.dotsVertical,
+                color: Colors.black,
+                size: 35,
+              ),
+            ),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'about',
+                child: Text('About'),
+              ),
+              /*  PopupMenuItem(
+                value: 'logout',
+                child: Text('Cerrar Sesión'),
+              ), */
+            ],
+            onSelected: (opcionSeleccionada) {
+              if (opcionSeleccionada == 'logout') {}
+            },
+          ),
+        ],
       ),
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 5),
