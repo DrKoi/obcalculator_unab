@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/constants.dart';
+import 'package:ob_calculator/pages/giro.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
 import '../models/pagina_model.dart';
 import 'disco_gestacional_page copy.dart';
@@ -31,9 +32,9 @@ class _HomePageState extends State<HomePage> {
         nombrePagina: 'FUR Operacional',
         pathPagina: FurOperacionalPage()),
     Pagina(
-        iconoPagina: Icon(MdiIcons.weight),
+        iconoPagina: Icon(MdiIcons.information),
         nombrePagina: 'Información',
-        pathPagina: ImcPage()),
+        pathPagina: Giro()),
   ];
   late int numPagina;
   @override
@@ -114,10 +115,11 @@ class _HomePageState extends State<HomePage> {
             },
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(MdiIcons.wheelBarrow), label: 'Wheel'),
+                  icon: Icon(MdiIcons.circleSlice4), label: 'Edad Gestacional'),
               BottomNavigationBarItem(
                   icon: Icon(MdiIcons.doctor), label: 'Eco'),
-              BottomNavigationBarItem(icon: Icon(MdiIcons.weight), label: 'IMC')
+              BottomNavigationBarItem(
+                  icon: Icon(MdiIcons.information), label: 'Informaciión')
             ]),
       ),
     );
