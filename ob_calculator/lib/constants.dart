@@ -13,3 +13,4 @@ const double kMax = 366;
 
 const Color azulUnab = Color(0xff001B2B);
 const Color rojoUnab = Color(0xff001B2B);
+const Color appBarColor = Colors.white24;

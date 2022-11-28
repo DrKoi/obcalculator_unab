@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/constants.dart';
+import 'package:ob_calculator/pages/zodiac_pages/piscis.dart';
 import 'package:ob_calculator/widgets/screen_display.dart';
 
 import '../widgets/heading.dart';
@@ -23,7 +25,7 @@ class _MostrarDatosState extends State<MostrarDatos> {
             child: Image.asset('assets/logo_unab.png'),
           ),
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: appBarColor,
           title: Text(
             'Datos adicionales',
             style: TextStyle(color: Colors.black),
@@ -76,7 +78,12 @@ class _MostrarDatosState extends State<MostrarDatos> {
                   WidgetButton(
                     title: (widget.datos[6].toString()),
                     subTitle: ('Signo zodiacal'),
-                    onTap: () {},
+                    onTap: () {
+                      MaterialPageRoute route = MaterialPageRoute(
+                        builder: (context) => PiscisPage(),
+                      );
+                      Navigator.push(context, route);
+                    },
                   ),
                 ]),
               ),
