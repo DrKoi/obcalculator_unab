@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/constants.dart';
-import 'package:ob_calculator/pages/giro.dart';
-import 'package:ob_calculator/pages/imc_page.dart';
 import 'package:ob_calculator/pages/informacion_page.dart';
-import 'package:ob_calculator/pages/zodiac_pages/singo_zodica_page.dart';
 import '../models/pagina_model.dart';
 import 'disco_gestacional_page copy.dart';
 import 'fur_operacional_page.dart';
-import 'carta_astral_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

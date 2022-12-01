@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/constants.dart';
 
 import '../../models/signo_zodiaco.dart';
 
-class SignoZodicoPage extends StatefulWidget {
+class SignoZodiacoPage extends StatefulWidget {
   final String signo;
-  SignoZodicoPage(this.signo, {Key? key}) : super(key: key);
+  SignoZodiacoPage(this.signo, {Key? key}) : super(key: key);
 
   @override
-  State<SignoZodicoPage> createState() => _PiscisPageState();
+  State<SignoZodiacoPage> createState() => _SignoZodiacoPageState();
 }
 
 final Map<String, SignoZodiaco> zodiac = {
@@ -126,7 +123,7 @@ final Map<String, SignoZodiaco> zodiac = {
       gema: 'Aquamarina'),
 };
 
-class _PiscisPageState extends State<SignoZodicoPage> {
+class _SignoZodiacoPageState extends State<SignoZodiacoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,45 +143,47 @@ class _PiscisPageState extends State<SignoZodicoPage> {
           //TODO:-Se recibe desde el signo que toca, se usa para identificar en el map
           var zodiacKey = widget.signo;
 
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        //color: Colors.black,
-                        image: DecorationImage(
-                            image: AssetImage(zodiac[zodiacKey]!.image))),
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        zodiac[zodiacKey]!.titulo,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 22),
-                      ),
-                      Text(
-                        zodiac[zodiacKey]!.subtitulo,
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic, fontSize: 20),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    child: Text(
-                      zodiac[zodiacKey]!.descripcion,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 18),
-                    )),
-              )
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          //color: Colors.black,
+                          image: DecorationImage(
+                              image: AssetImage(zodiac[zodiacKey]!.image))),
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          zodiac[zodiacKey]!.titulo,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 22),
+                        ),
+                        Text(
+                          zodiac[zodiacKey]!.subtitulo,
+                          style: TextStyle(
+                              fontStyle: FontStyle.italic, fontSize: 20),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        zodiac[zodiacKey]!.descripcion,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 18),
+                      )),
+                )
+              ],
+            ),
           );
         })));
   }

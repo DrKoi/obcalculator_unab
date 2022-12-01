@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class SignoZodiaco {
   final String image;
   final String titulo;

@@ -81,7 +81,6 @@ class disco extends StatelessWidget {
                 Container(
                   child: Builder(builder: (context) {
                     localeJiff();
-                    var fechaJiffy = Jiffy(fecha).yMMMd;
                     //var fur = Jiffy(fechaJiffy).subtract();
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +102,6 @@ class disco extends StatelessWidget {
                 ),
                 Container(
                   child: Builder(builder: (context) {
-                    var fur = value;
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

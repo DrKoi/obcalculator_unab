@@ -118,7 +118,6 @@ class _GiroState extends State<Giro> {
                       Container(
                         child: Builder(builder: (context) {
                           localeJiff();
-                          var fechaJiffy = Jiffy(fechaSeleccionada).yMMMd;
                           //var fur = Jiffy(fechaJiffy).subtract();
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +141,6 @@ class _GiroState extends State<Giro> {
                       ),
                       Container(
                         child: Builder(builder: (context) {
-                          var fur = value;
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

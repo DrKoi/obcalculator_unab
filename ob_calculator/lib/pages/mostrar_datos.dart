@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/constants.dart';
-import 'package:ob_calculator/pages/zodiac_pages/singo_zodica_page.dart';
+import 'package:ob_calculator/pages/semana_pages/semana_page.dart';
+import 'package:ob_calculator/pages/zodiac_pages/signo_zodiaco_page.dart';
 import 'package:ob_calculator/widgets/screen_display.dart';
 
 import '../widgets/heading.dart';
 
 class MostrarDatos extends StatefulWidget {
   List<dynamic> datos;
+  num edadGestacional;
   //const MostrarDatos({super.key});
-  MostrarDatos(this.datos, {Key? key}) : super(key: key);
+  MostrarDatos(this.datos, this.edadGestacional, {Key? key}) : super(key: key);
 
   @override
   State<MostrarDatos> createState() => _MostrarDatosState();
@@ -48,7 +49,22 @@ class _MostrarDatosState extends State<MostrarDatos> {
                   WidgetButton(
                     title: (widget.datos[0].toString()),
                     subTitle: ('Edad Gestacional'),
-                    onTap: () {},
+                    onTap: () {
+                      if (widget.edadGestacional > 1) {
+                        MaterialPageRoute route = MaterialPageRoute(
+                          builder: (context) =>
+                              SemanaPage(widget.edadGestacional),
+                        );
+                        Navigator.push(context, route);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                              content: Text(
+                                  'Para ver detalles, la edad gestacional debe ser de 2 semanas en adelante')),
+                        );
+                      }
+                    },
                   ),
                   WidgetButton(
                     title: (widget.datos[1].toString()),
@@ -81,7 +97,7 @@ class _MostrarDatosState extends State<MostrarDatos> {
                     onTap: () {
                       MaterialPageRoute route = MaterialPageRoute(
                         builder: (context) =>
-                            SignoZodicoPage(widget.datos[6].toString()),
+                            SignoZodiacoPage(widget.datos[6].toString()),
                       );
                       Navigator.push(context, route);
                     },

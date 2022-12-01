@@ -6,8 +6,6 @@ import 'package:ob_calculator/pages/mostrar_datos.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 import '../constants.dart';
-import '../models/dato_model.dart';
-import '../widgets/disco_widget.dart';
 
 class NewDiscoGestacionalPage extends StatefulWidget {
   const NewDiscoGestacionalPage({super.key});
@@ -18,6 +16,7 @@ class NewDiscoGestacionalPage extends StatefulWidget {
 }
 
 class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
+  late num edadGestacionalenSemanas;
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
@@ -120,8 +119,6 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                           Container(
                             child: Builder(builder: (context) {
                               localeJiff();
-                              var fechaJiffy = Jiffy(fechaSeleccionada).yMMMd;
-                              //var fur = Jiffy(fechaJiffy).subtract();
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -144,7 +141,6 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                           ),
                           Container(
                             child: Builder(builder: (context) {
-                              var fur = value;
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -286,6 +282,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                         }
                       }
                     }
+                    edadGestacionalenSemanas = edadGestacionalSemanas;
                     //FECHA PROBABLE DE PARTO
                     datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
                     //PESO PROMEDIO DEL BEBÉ
@@ -1167,13 +1164,15 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
         height: 50,
         child: ElevatedButton.icon(
             onPressed: (() {
-              //TODO:-No debe dejar pulsar si no se ha seleccionado una fecha
-              MaterialPageRoute route = MaterialPageRoute(
-                builder: (context) => MostrarDatos(datos),
-              );
-              Navigator.push(context, route).then((value) {
-                setState(() {});
-              });
+              if (buttonPressed) {
+                MaterialPageRoute route = MaterialPageRoute(
+                  builder: (context) =>
+                      MostrarDatos(datos, edadGestacionalenSemanas),
+                );
+                Navigator.push(context, route).then((value) {
+                  setState(() {});
+                });
+              }
             }),
             icon: Icon(MdiIcons.details),
             label: Text('Ver Otros datos')));

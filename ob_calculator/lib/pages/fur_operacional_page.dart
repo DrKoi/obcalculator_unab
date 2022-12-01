@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:ob_calculator/pages/imc_page.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
 
 class FurOperacionalPage extends StatefulWidget {
@@ -15,7 +14,7 @@ class FurOperacionalPage extends StatefulWidget {
 class _FurOperacionalPageState extends State<FurOperacionalPage> {
   TextEditingController semanasCtrl = TextEditingController();
   TextEditingController diasCtrl = TextEditingController();
-
+  late num edadGestacionalenSemanas;
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
@@ -190,6 +189,7 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                       }
                     }
                   }
+                  edadGestacionalenSemanas = edadGestacionalSemanas;
                   //FECHA PROBABLE DE PARTO
                   datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
                   //PESO PROMEDIO DEL BEBÉ
@@ -200,13 +200,12 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                   dBiParietal(edadGestacionalSemanas);
                   //LONGITUD DEL FÉMUR DEL BEBÉ
                   logitudFemur(edadGestacionalSemanas);
-
                   //SIGNO ZODIACAL
-                  var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
                   calcularSignoZodiaco(fechaMesesSubstracted);
                 });
                 MaterialPageRoute route = MaterialPageRoute(
-                  builder: (context) => MostrarDatos(datos),
+                  builder: (context) =>
+                      MostrarDatos(datos, edadGestacionalenSemanas),
                 );
                 Navigator.push(context, route).then((value) {
                   setState(() {});
