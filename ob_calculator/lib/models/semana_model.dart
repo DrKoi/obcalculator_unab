@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+
 class Semana {
   final String numSemana;
   final String slogan;
-  final String textoSemana;
+  final Column textoSemana;
   final String image;
   Semana(
       {required this.numSemana,
