@@ -73,64 +73,7 @@ class disco extends StatelessWidget {
                 dynamicGradient: true,
               ),
               spinnerMode: false),
-          onChange: /* (double value) {
-            datos.clear();
-            var fechaMesesSubstracted =
-                DateTime(fecha.year + 1, fecha.month - 3, fecha.day + 7);
-            var edadGestacionalSemanas = Jiffy([
-              DateTime.now().year,
-              DateTime.now().month,
-              DateTime.now().day
-            ]).diff(Jiffy([fecha.year, fecha.month, fecha.day]), Units.WEEK);
-            var edadGestacionalDias = (Jiffy([
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day
-                ]).diff(
-                    Jiffy([fecha.year, fecha.month, fecha.day]), Units.DAY) %
-                7);
-            if (edadGestacionalDias == 0 && edadGestacionalSemanas == 0) {
-              datos.add('---');
-            } else {
-              if (edadGestacionalDias == 0) {
-                datos.add(edadGestacionalSemanas.toString() + ' semanas ');
-              } else {
-                if (edadGestacionalSemanas == 0) {
-                  if (edadGestacionalDias == 1) {
-                    datos.add(edadGestacionalDias.toString() + ' día');
-                  }
-                  datos.add(edadGestacionalDias.toString() + ' días ');
-                } else {
-                  if (edadGestacionalDias == 1) {
-                    if (edadGestacionalSemanas == 1) {
-                      datos.add(edadGestacionalSemanas.toString() +
-                          ' semana y ' +
-                          edadGestacionalDias.toString() +
-                          ' día ');
-                    } else {
-                      datos.add(edadGestacionalSemanas.toString() +
-                          ' semanas y ' +
-                          edadGestacionalDias.toString() +
-                          ' día');
-                    }
-                  } else {
-                    if (edadGestacionalSemanas == 1) {
-                      datos.add(edadGestacionalSemanas.toString() +
-                          ' semana y ' +
-                          edadGestacionalDias.toString() +
-                          ' días ');
-                    }
-                    datos.add(edadGestacionalSemanas.toString() +
-                        ' semanas y ' +
-                        edadGestacionalDias.toString() +
-                        ' días ');
-                  }
-                }
-              }
-            }
-            datos.add(Jiffy(fechaMesesSubstracted).yMMMd);
-          }, */
-              null,
+          onChange: null,
           innerWidget: (value) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

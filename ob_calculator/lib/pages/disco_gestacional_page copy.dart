@@ -3,7 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
+import '../constants.dart';
 import '../models/dato_model.dart';
 import '../widgets/disco_widget.dart';
 
@@ -21,18 +23,151 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
   var fFecha = DateFormat('dd-MM-yyyy');
   bool buttonPressed = false;
   final List<dynamic> datos = ['---', '---', '---', '---', '---', '---', '---'];
-
+  double _angle = 0.0;
+  double _oldAngle = 0.0;
+  double _angleDelta = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           Expanded(
-            child: disco(
-              progressVal: 0.5,
-              fFecha: fFecha,
-              fecha: fechaSeleccionada,
-              datos: datos,
+            child: Stack(
+              children: [
+                Center(
+                  child: Transform.rotate(
+                    angle: _angle,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/Circular_calendar1.png')),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          Offset centerOfGestureDetector =
+                              Offset(constraints.maxWidth / 2, 130);
+                          return GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onPanStart: (details) {
+                              final touchPositionFromCenter =
+                                  details.localPosition -
+                                      centerOfGestureDetector;
+                              _angleDelta =
+                                  _oldAngle - touchPositionFromCenter.direction;
+                            },
+                            onPanEnd: (details) {
+                              setState(
+                                () {
+                                  _oldAngle = _angle;
+                                },
+                              );
+                            },
+                            onPanUpdate: (details) {
+                              final touchPositionFromCenter =
+                                  details.localPosition -
+                                      centerOfGestureDetector;
+
+                              setState(
+                                () {
+                                  _angle = touchPositionFromCenter.direction +
+                                      _angleDelta;
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                    child: Container(
+                  width: kDiameter - 30,
+                  height: kDiameter - 30,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.transparent,
+                      width: 20,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  child: SleekCircularSlider(
+                    min: kMin,
+                    max: kMax,
+                    initialValue: Jiffy(fechaSeleccionada).dayOfYear.toDouble(),
+                    appearance: CircularSliderAppearance(
+                        size: kDiameter - 150,
+                        startAngle: 269,
+                        angleRange: 360,
+                        customColors: CustomSliderColors(
+                          trackColor: Colors.transparent,
+                          dotColor: Colors.transparent,
+                          progressBarColor: Colors.transparent,
+                          hideShadow: true,
+                          dynamicGradient: true,
+                        ),
+                        spinnerMode: false),
+                    onChange: null,
+                    innerWidget: (value) => Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Builder(builder: (context) {
+                              localeJiff();
+                              var fechaJiffy = Jiffy(fechaSeleccionada).yMMMd;
+                              //var fur = Jiffy(fechaJiffy).subtract();
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '${datos[1]}',
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                  ),
+                                  Text(
+                                    'Fecha probable de parto',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white70),
+                                  ),
+                                ],
+                              );
+                            }),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Container(
+                            child: Builder(builder: (context) {
+                              var fur = value;
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '${datos[0]}',
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                  ),
+                                  Text(
+                                    'Edad Gestacional',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white70),
+                                  ),
+                                ],
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
+              ],
             ),
             flex: 3,
           ),
@@ -119,8 +254,10 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                         if (edadGestacionalSemanas == 0) {
                           if (edadGestacionalDias == 1) {
                             datos.add(edadGestacionalDias.toString() + ' día');
+                          } else {
+                            datos
+                                .add(edadGestacionalDias.toString() + ' días ');
                           }
-                          datos.add(edadGestacionalDias.toString() + ' días ');
                         } else {
                           if (edadGestacionalDias == 1) {
                             if (edadGestacionalSemanas == 1) {
@@ -151,18 +288,17 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                     }
                     //FECHA PROBABLE DE PARTO
                     datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
-
-                    //TODO: -PESO PROMEDIO DEL BEBÉ
+                    //PESO PROMEDIO DEL BEBÉ
                     pesoPromedio(edadGestacionalSemanas);
-                    //TODO: -TALLA PROMEDIO DEL BEBÉ
+                    //TALLA PROMEDIO DEL BEBÉ
                     tallaPromedio(edadGestacionalSemanas);
-                    //TODO: -DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
+                    //DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
                     dBiParietal(edadGestacionalSemanas);
-                    //TODO: -LONGITUD DEL FÉMUR DEL BEBÉ
+                    //LONGITUD DEL FÉMUR DEL BEBÉ
                     logitudFemur(edadGestacionalSemanas);
 
-                    //TODO: SIGNO ZODIACAL
-                    var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
+                    //SIGNO ZODIACAL
+                    //var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
                     calcularSignoZodiaco(fechaMesesSubstracted);
                   });
                 });
@@ -1027,10 +1163,11 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
 
   Container botonVerDetalles() {
     return Container(
+        color: rojoUnab,
         height: 50,
         child: ElevatedButton.icon(
             onPressed: (() {
-              //
+              //TODO:-No debe dejar pulsar si no se ha seleccionado una fecha
               MaterialPageRoute route = MaterialPageRoute(
                 builder: (context) => MostrarDatos(datos),
               );
@@ -1085,5 +1222,9 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
     } else {
       datos.add('error al agregar');
     }
+  }
+
+  void localeJiff() async {
+    await Jiffy.locale('es');
   }
 }

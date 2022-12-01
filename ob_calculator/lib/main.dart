@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:ob_calculator/constants.dart';
-import 'package:ob_calculator/pages/disco_page.dart';
 import 'package:ob_calculator/pages/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'material_color_generator.dart';
+
+final ThemeData theme = ThemeData(
+  primarySwatch: generateMaterialColor(Palette.primary),
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+);
+
+class Palette {
+  static const Color primary = rojoUnab;
+}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,13 +37,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: [const Locale('es')],
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        //colorScheme: ColorScheme(brightness: Brightness.light, primary: p, onPrimary: Colors.white, secondary: rojo, onSecondary: Colors.white, error: p, onError: Colors.white, background: rojo, onBackground: Colors.white, surface: rojo.withOpacity(10), onSurface: Colors.white,),
-        primarySwatch: Colors.red,
-        primaryColor: azulUnab,
-
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: theme,
       home: HomePage(),
     );
   }

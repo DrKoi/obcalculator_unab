@@ -3,11 +3,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:ob_calculator/constants.dart';
 import 'package:ob_calculator/pages/giro.dart';
 import 'package:ob_calculator/pages/imc_page.dart';
+import 'package:ob_calculator/pages/informacion_page.dart';
+import 'package:ob_calculator/pages/zodiac_pages/singo_zodica_page.dart';
 import '../models/pagina_model.dart';
 import 'disco_gestacional_page copy.dart';
-
-import 'disco_page.dart';
-import 'edad_gestacional_page.dart';
 import 'fur_operacional_page.dart';
 import 'carta_astral_page.dart';
 
@@ -22,19 +21,22 @@ class _HomePageState extends State<HomePage> {
   int paginaSel = 0;
   List<Pagina> paginas = [
     Pagina(
+        subtitulo: null,
         iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
         //TODO:- cambiar por el disco
         pathPagina: NewDiscoGestacionalPage()),
     //------------------------------
     Pagina(
+        subtitulo: null,
         iconoPagina: Icon(MdiIcons.doctor),
         nombrePagina: 'FUR Operacional',
         pathPagina: FurOperacionalPage()),
     Pagina(
+        subtitulo: null,
         iconoPagina: Icon(MdiIcons.information),
         nombrePagina: 'Información',
-        pathPagina: Giro()),
+        pathPagina: InformacionPage()),
   ];
   late int numPagina;
   @override
@@ -48,18 +50,54 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: Image.asset('assets/logo_unab.png'),
         ),
-        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Calculadora ',
-            style: TextStyle(color: Colors.black, fontSize: 13),
-            textAlign: TextAlign.start,
-          ),
-          Text(
-            'Edad Gestacional ',
-            style: TextStyle(color: Colors.black),
-            textAlign: TextAlign.start,
-          ),
-        ]),
+        title: Builder(builder: (context) {
+          if (paginaSel == 1) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'A partir de Ecografía ',
+                    style: TextStyle(color: Colors.black, fontSize: 13),
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    'Edad Gestacional ',
+                    style: TextStyle(color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                ]);
+          } else if (paginaSel == 2) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Información ',
+                    style: TextStyle(color: Colors.black, fontSize: 13),
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    'Semana a Semana ',
+                    style: TextStyle(color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                ]);
+          } else {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Calculadora ',
+                    style: TextStyle(color: Colors.black, fontSize: 13),
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    'Edad Gestacional ',
+                    style: TextStyle(color: Colors.black),
+                    textAlign: TextAlign.start,
+                  ),
+                ]);
+          }
+        }),
         actions: [
           PopupMenuButton(
             icon: Padding(

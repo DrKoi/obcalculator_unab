@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/constants.dart';
-import 'package:ob_calculator/pages/zodiac_pages/piscis.dart';
+import 'package:ob_calculator/pages/zodiac_pages/singo_zodica_page.dart';
 import 'package:ob_calculator/widgets/screen_display.dart';
 
 import '../widgets/heading.dart';
@@ -80,7 +80,8 @@ class _MostrarDatosState extends State<MostrarDatos> {
                     subTitle: ('Signo zodiacal'),
                     onTap: () {
                       MaterialPageRoute route = MaterialPageRoute(
-                        builder: (context) => PiscisPage(),
+                        builder: (context) =>
+                            SignoZodicoPage(widget.datos[6].toString()),
                       );
                       Navigator.push(context, route);
                     },
