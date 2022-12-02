@@ -83,6 +83,12 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                   ),
                 ),
                 Center(
+                    child: Image.asset(
+                  'assets/calendar_arrow.png',
+                  height: kDiameter - 30,
+                  width: kDiameter - 30,
+                )),
+                Center(
                     child: Container(
                   width: kDiameter - 30,
                   height: kDiameter - 30,

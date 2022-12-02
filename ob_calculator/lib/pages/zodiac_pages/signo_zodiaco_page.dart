@@ -140,7 +140,6 @@ class _SignoZodiacoPageState extends State<SignoZodiacoPage> {
               },
             )),
         body: Builder(builder: ((context) {
-          //TODO:-Se recibe desde el signo que toca, se usa para identificar en el map
           var zodiacKey = widget.signo;
 
           return SingleChildScrollView(

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:ob_calculator/constants.dart';
 import 'package:ob_calculator/pages/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ob_calculator/pages/semana_pages/semana_page.dart';
 
 import 'material_color_generator.dart';
 
@@ -36,7 +37,6 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       supportedLocales: [const Locale('es')],
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: theme,
       home: HomePage(),
     );

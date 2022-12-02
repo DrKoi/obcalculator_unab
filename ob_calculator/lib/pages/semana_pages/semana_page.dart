@@ -18,17 +18,43 @@ final Map<num, Semana> semana = {
     numSemana: 'Semana 2 de Embarazo',
     slogan: '',
     textoSemana: Column(children: [
-      Text('Si tus ciclos son de 28 días la ovulación se produce el último día de esta semana, por lo que técnicamente aún no estás embarazada. Sin embargo, el médico va a contar las semanas de embarazo desde el primer día de tu FUR (Fecha Última Regla o menstruación) y no desde la concepción, por eso hablaremos de 2 semanas de embarazo, a pesar de que a estas alturas la fecundación aún no ocurre.' +
-          '\nSi no recuerdas tu FUR o tus ciclos son muy irregulares, será la ecografía la que dará la última palabra con respecto al momento en que quedaste embarazada.' +
-          '\nLas puntadas en los costados de tu abdomen son síntomas comunes durante este período. Normalmente éste es un indicador de ovulación, junto con la sensibilidad de los pechos. Además tu temperatura corporal basal suele aumentar de manera ligera.' +
-          '\nEl útero empieza a formar el “forro” donde se implantará el huevo que se llama placenta y servirá para nutrir a tu bebé. En este momento tu útero se está preparando para la concepción.' +
-          '\nTu volumen de sangre aumenta en un 50%, para afrontar la demanda de oxigeno del posible bebé que crecerá en tu interior. Dentro de tu cuerpo, estás creando un mundo seguro para que tu pequeño pueda desarrollarse, protegido del exterior.' +
-          '\nTodavía no es posible confirmar con análisis si ya estás embarazada. Debes tener un poco de paciencia ya que debes esperar dos semanas más para confirmarlo, es decir, la fecha cuando tendría que aparecer tu menstruación.' +
-          '\nOvulación' +
-          '\nLa ovulación, que permitirá que un óvulo salga de tu ovario para encontrarse con un espermatozoide que lo fecunde, se desencadena por un aumento súbito de la producción de una hormona llamada LH.' +
-          '\nEste proceso parte cuando la superficie del ovario comienza a presentar un abultamiento local, en cuyo vértice aparece una mancha llamada estigma. Esto produce la degeneración de la superficie del ovario, lo que da paso a un escape de líquido folicular por el estigma , que se abre gradualmente. Así se libera la tensión y el óvulo se desprende y es expulsado del ovario.' +
-          '\nSin embargo, algunas mujeres no ovulan naturalmente por lo que para embarazarse toman fármacos, como el citrato de clomifeno, que estimula la liberación de esta hormona, provocando ovulaciones múltiples.' +
-          '\nEs por esto que la frecuencia de embarazos múltiples aumenta hasta 10 veces cuando se induce la ovulación, pero también ocurren abortos espontáneos ya que no resulta posible la supervivencia de siete o más embriones.')
+      RichText(
+          text: TextSpan(
+              style: TextStyle(fontSize: 18, color: Colors.black),
+              children: <TextSpan>[
+            TextSpan(
+                text:
+                    'Si tus ciclos son de 28 días la ovulación se produce el último día de esta semana, por lo que técnicamente aún no estás embarazada. Sin embargo, '),
+            TextSpan(
+                text:
+                    'el médico va a contar las semanas de embarazo desde el primer día de tu FUR ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(
+              text: '(Fecha Última Regla o menstruación) y no desde la concepción, por eso hablaremos de 2 semanas de embarazo, a pesar de que a estas alturas la fecundación aún no ocurre.' +
+                  '\n\nSi no recuerdas tu FUR o tus ciclos son muy irregulares, será la ecografía la que dará la última palabra con respecto al momento en que quedaste embarazada.' +
+                  '\n\nLas puntadas en los costados de tu abdomen son síntomas comunes durante este período. Normalmente éste es un indicador de ovulación, junto con la sensibilidad de los pechos. Además tu temperatura corporal basal suele aumentar de manera ligera.' +
+                  '\n\nEl útero empieza a formar el “forro” donde se implantará el huevo que se llama placenta y servirá para nutrir a tu bebé. En este momento tu útero se está preparando para la concepción.' +
+                  '\n\nTu volumen de sangre aumenta en un 50%, para afrontar la demanda de oxigeno del posible bebé que crecerá en tu interior. Dentro de tu cuerpo, estás creando un mundo seguro para que tu pequeño pueda desarrollarse, protegido del exterior.' +
+                  '\n\nTodavía no es posible confirmar con análisis si ya estás embarazada. Debes tener un poco de paciencia ya que debes esperar dos semanas más para confirmarlo, es decir, la fecha cuando tendría que aparecer tu menstruación.',
+            )
+          ])
+          //textAlign: TextAlign.justify,
+          ),
+      Text(
+        '\nOvulación',
+        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        textAlign: TextAlign.left,
+      ),
+      RichText(
+          text: TextSpan(
+              style: TextStyle(fontSize: 18, color: Colors.black),
+              text: '\nLa ovulación, que permitirá que un óvulo salga de tu ovario para encontrarse con un espermatozoide que lo fecunde, se desencadena por un aumento súbito de la producción de una hormona llamada LH.' +
+                  '\n\nEste proceso parte cuando la superficie del ovario comienza a presentar un abultamiento local, en cuyo vértice aparece una mancha llamada estigma. Esto produce la degeneración de la superficie del ovario, lo que da paso a un escape de líquido folicular por el estigma , que se abre gradualmente. Así se libera la tensión y el óvulo se desprende y es expulsado del ovario.' +
+                  '\n\nSin embargo, algunas mujeres no ovulan naturalmente por lo que para embarazarse toman fármacos, como el citrato de clomifeno, que estimula la liberación de esta hormona, provocando ovulaciones múltiples.' +
+                  '\n\nEs por esto que la frecuencia de embarazos múltiples aumenta hasta 10 veces cuando se induce la ovulación, pero también ocurren abortos espontáneos ya que no resulta posible la supervivencia de siete o más embriones.')),
+      SizedBox(
+        height: 20,
+      )
     ]),
   ),
   3: Semana(
@@ -240,7 +266,6 @@ class _SemanaState extends State<SemanaPage> {
               },
             )),
         body: Builder(builder: ((context) {
-          //TODO:-Se recibe desde el signo que toca, se usa para identificar en el map
           var semanaKey = widget.currentSemana;
 
           return SingleChildScrollView(
@@ -273,12 +298,9 @@ class _SemanaState extends State<SemanaPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
-                    child: semana[semanaKey]!.textoSemana,
-                  ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  child: semana[semanaKey]!.textoSemana,
                 )
               ],
             ),

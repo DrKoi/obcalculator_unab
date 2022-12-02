@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
         subtitulo: null,
         iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
-        //TODO:- cambiar por el disco
         pathPagina: NewDiscoGestacionalPage()),
     //------------------------------
     Pagina(
