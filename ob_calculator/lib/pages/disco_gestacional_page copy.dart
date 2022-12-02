@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
@@ -35,7 +37,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
               children: [
                 Center(
                   child: Transform.rotate(
-                    angle: _angle,
+                    angle: pi * Jiffy(fechaSeleccionada).dayOfYear.toDouble(),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
