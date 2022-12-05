@@ -23,6 +23,8 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
   DateTime fechaSeleccionada = DateTime.now();
   var fFecha = DateFormat('dd-MM-yyyy');
   bool buttonPressed = false;
+  bool mayorCuarenta = false;
+  bool menorDos = false;
   final List<dynamic> datos = ['---', '---', '---', '---', '---', '---', '---'];
   double _angle = 0.0;
   double _oldAngle = 0.0;
@@ -37,7 +39,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
               children: [
                 Center(
                   child: Transform.rotate(
-                    angle: pi * Jiffy(fechaSeleccionada).dayOfYear.toDouble(),
+                    angle: _angle,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
@@ -196,6 +198,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
   }
 
   Row campoFurPicker() {
+    DateTime firstDate = DateTime.now().subtract(Duration(days: 6 + (7 * 40)));
     return Row(
       children: [
         Text('Fecha última regla: ',
@@ -208,15 +211,15 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
             onPressed: () {
               showDatePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2017),
+                initialDate: fechaSeleccionada,
+                firstDate: firstDate,
                 lastDate: DateTime.now(),
                 locale: Locale('es', 'ES'),
               ).then((fecha) {
                 setState(() {
                   fechaSeleccionada = fecha ?? fechaSeleccionada;
                   datos.clear();
-                  buttonPressed = true;
+
                   setState(() {
                     var fechaMesesSubstracted = DateTime(
                         fechaSeleccionada.year + 1,
@@ -293,18 +296,28 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                     edadGestacionalenSemanas = edadGestacionalSemanas;
                     //FECHA PROBABLE DE PARTO
                     datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
-                    //PESO PROMEDIO DEL BEBÉ
-                    pesoPromedio(edadGestacionalSemanas);
-                    //TALLA PROMEDIO DEL BEBÉ
-                    tallaPromedio(edadGestacionalSemanas);
-                    //DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
-                    dBiParietal(edadGestacionalSemanas);
-                    //LONGITUD DEL FÉMUR DEL BEBÉ
-                    logitudFemur(edadGestacionalSemanas);
+                    if (edadGestacionalSemanas > 1 &&
+                        edadGestacionalSemanas < 41) {
+                      buttonPressed = true;
+                      //PESO PROMEDIO DEL BEBÉ
+                      pesoPromedio(edadGestacionalSemanas);
+                      //TALLA PROMEDIO DEL BEBÉ
+                      tallaPromedio(edadGestacionalSemanas);
+                      //DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
+                      dBiParietal(edadGestacionalSemanas);
+                      //LONGITUD DEL FÉMUR DEL BEBÉ
+                      logitudFemur(edadGestacionalSemanas);
 
-                    //SIGNO ZODIACAL
-                    //var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
-                    calcularSignoZodiaco(fechaMesesSubstracted);
+                      //SIGNO ZODIACAL
+                      //var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
+                      calcularSignoZodiaco(fechaMesesSubstracted);
+                    } else if (edadGestacionalSemanas < 2) {
+                      buttonPressed = false;
+                      menorDos = true;
+                    } else if (edadGestacionalSemanas > 40) {
+                      buttonPressed = false;
+                      mayorCuarenta = true;
+                    }
                   });
                 });
               });
@@ -320,7 +333,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
 
   void pesoPromedio(num edadGestacionalSemanas) {
     if (edadGestacionalSemanas < 8) {
-      datos.add('dato a partir de la semana 8');
+      datos.add('Disponible desde la semana 8');
     } else {
       switch (edadGestacionalSemanas) {
         case 8:
@@ -550,7 +563,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
 
   void tallaPromedio(num edadGestacionalSemanas) {
     if (edadGestacionalSemanas < 8) {
-      datos.add('dato a partir de la semana 8');
+      datos.add('Disponible desde la semana 8');
     } else {
       switch (edadGestacionalSemanas) {
         case 8:
@@ -780,7 +793,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
 
   void dBiParietal(num edadGestacionalSemanas) {
     if (edadGestacionalSemanas < 14) {
-      datos.add('dato a partir de la semana 13');
+      datos.add('Disponible desde la semana 13');
     } else {
       switch (edadGestacionalSemanas) {
         case 14:
@@ -974,7 +987,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
 
   void logitudFemur(num edadGestacionalSemanas) {
     if (edadGestacionalSemanas < 14) {
-      datos.add('dato a partir de la semana 13');
+      datos.add('Disponible desde la semana 13');
     } else {
       switch (edadGestacionalSemanas) {
         case 14:
@@ -1180,6 +1193,43 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                 Navigator.push(context, route).then((value) {
                   setState(() {});
                 });
+              } else {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      if (menorDos) {
+                        return AlertDialog(
+                            title: Text('No hay detalles que mostrar'),
+                            content: Text(
+                                'Para ver más detalles, la edad gestacional debe ser mayor o igual a 2 semanas.'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Ok'))
+                            ]);
+                      } else if (mayorCuarenta) {
+                        return AlertDialog(
+                            title: Text('No hay detalles que mostrar'),
+                            content: Text(
+                                'Para ver más detalles, la edad gestacional debe ser menor o igual a 40 semanas.'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Ok'))
+                            ]);
+                      } else {
+                        return AlertDialog(
+                            title: Text('No hay detalles que mostrar'),
+                            content: Text(
+                                'Para ver detalles debe seleccionar una fecha.'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Ok'))
+                            ]);
+                      }
+                    });
               }
             }),
             icon: Icon(MdiIcons.details),
@@ -1224,7 +1274,8 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
       datos.add('Escorpio');
     } else if (fecha.isBetween(sagitario, capricornio)) {
       datos.add('Sagitario');
-    } else if (fecha.isBetween(capricornio, acuario)) {
+    } else if (fecha.isBetween(capricornio, Jiffy('12-31', 'MM-dd')) ||
+        fecha.isBetween(Jiffy('1-1', 'MM-dd'), acuario)) {
       datos.add('Capricornio');
     } else {
       datos.add('error al agregar');

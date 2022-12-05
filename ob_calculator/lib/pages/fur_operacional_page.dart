@@ -67,10 +67,14 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
         //Spacer(),
         IconButton(
           onPressed: () {
+            buttonPressed = true;
+            DateTime firstDate =
+                DateTime.now().subtract(Duration(days: 6 + (7 * 40)));
+
             showDatePicker(
               context: context,
               initialDate: DateTime.now(),
-              firstDate: DateTime(2017),
+              firstDate: firstDate,
               lastDate: DateTime.now(),
               locale: Locale('es', 'ES'),
             ).then((fecha) {
@@ -126,13 +130,12 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
         child: ElevatedButton.icon(
             onPressed: (() {
               if (formKey.currentState!.validate()) {
-                buttonPressed = true;
                 datos.clear();
                 setState(() {
                   var semanas = int.tryParse(semanasCtrl.text.trim())!;
                   var dias = int.tryParse(diasCtrl.text.trim()) ?? 0;
-                  var fur = Jiffy(fechaSeleccionada)
-                      .subtract(weeks: semanas, days: dias);
+                  DateTime fur = (fechaSeleccionada)
+                      .subtract(Duration(days: dias + (semanas * 7)));
                   var fechaMesesSubstracted =
                       DateTime(fur.year + 1, fur.month - 3, fur.day + 7);
                   var edadGestacionalSemanas = Jiffy([
@@ -203,13 +206,63 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
                   //SIGNO ZODIACAL
                   calcularSignoZodiaco(fechaMesesSubstracted);
                 });
-                MaterialPageRoute route = MaterialPageRoute(
-                  builder: (context) =>
-                      MostrarDatos(datos, edadGestacionalenSemanas),
-                );
-                Navigator.push(context, route).then((value) {
-                  setState(() {});
-                });
+                if (buttonPressed) {
+                  if (edadGestacionalenSemanas > 1 &&
+                      edadGestacionalenSemanas < 41) {
+                    MaterialPageRoute route = MaterialPageRoute(
+                      builder: (context) =>
+                          MostrarDatos(datos, edadGestacionalenSemanas),
+                    );
+                    Navigator.push(context, route).then((value) {
+                      setState(() {});
+                    });
+                  } else if (edadGestacionalenSemanas < 2) {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                              title: Text('No hay detalles que mostrar'),
+                              content: Text(
+                                  'Para ver más detalles, la edad gestacional debe ser mayor o igual a 2 semanas.'),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Ok'))
+                              ]);
+                        });
+                  } else if (edadGestacionalenSemanas > 40) {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                              title: Text('No hay detalles que mostrar'),
+                              content: Text(
+                                  'Para ver más detalles, la edad gestacional debe ser menor o igual a 40 semanas.'),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Ok'))
+                              ]);
+                        });
+                  }
+                } else {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            title: Text('No hay detalles que mostrar'),
+                            content: Text(
+                                'Para ver detalles debe seleccionar una fecha.'),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Ok'))
+                            ]);
+                      });
+                }
               }
             }),
             icon: Icon(MdiIcons.calculator),

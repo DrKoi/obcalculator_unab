@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
 class SignoZodiaco {
   final String image;
   final String titulo;
   final String subtitulo;
   final String planetaRegente;
   final String elemento;
-  final String descripcion;
+  final Column descripcion;
   final String gema;
 
   SignoZodiaco({

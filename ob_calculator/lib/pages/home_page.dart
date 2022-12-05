@@ -3,7 +3,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:ob_calculator/constants.dart';
 import 'package:ob_calculator/pages/informacion_page.dart';
 import '../models/pagina_model.dart';
-import 'disco_gestacional_page copy.dart';
+import 'disco_disco.dart';
+import 'new_disco_gestacional_page.dart';
 import 'fur_operacional_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
         subtitulo: null,
         iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
+        //pathPagina: DiscoDiscoPage()),
         pathPagina: NewDiscoGestacionalPage()),
     //------------------------------
     Pagina(

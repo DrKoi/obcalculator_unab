@@ -69,27 +69,62 @@ class _MostrarDatosState extends State<MostrarDatos> {
                   WidgetButton(
                     title: (widget.datos[1].toString()),
                     subTitle: ('Fecha Probable de parto'),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            content: Text(
+                                'La fecha probable de parto es sólo una previsión, ya que el parto puede retrasarse o adelantarse.')),
+                      );
+                    },
                   ),
                   WidgetButton(
                     title: (widget.datos[2].toString()),
                     subTitle: ('Peso Aproximado'),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            content: Text(
+                                'Este es el peso estimado para la edad gestacional de ${widget.datos[0].toString()}')),
+                      );
+                    },
                   ),
                   WidgetButton(
                     title: (widget.datos[3].toString()),
                     subTitle: ('Talla Aproximada del bebé'),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            content: Text(
+                                'Esta es la estatura estimada para la edad gestacional de ${widget.datos[0].toString()}')),
+                      );
+                    },
                   ),
                   WidgetButton(
                     title: (widget.datos[4].toString()),
                     subTitle: ('Diámetro biparietal'),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            content: Text(
+                                'Este es el diámetro biparietal estimado para la edad gestacional de ${widget.datos[0].toString()}')),
+                      );
+                    },
                   ),
                   WidgetButton(
                     title: (widget.datos[5].toString()),
                     subTitle: ('Longitud de femúr'),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                            content: Text(
+                                'Esta es la longitud de fémur estimada para la edad gestacional de ${widget.datos[0].toString()}')),
+                      );
+                    },
                   ),
                   WidgetButton(
                     title: (widget.datos[6].toString()),
