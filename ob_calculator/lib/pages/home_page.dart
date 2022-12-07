@@ -36,9 +36,11 @@ class _HomePageState extends State<HomePage> {
         pathPagina: InformacionPage()),
   ];
   late int numPagina;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         shadowColor: Colors.transparent,
         elevation: 0,
@@ -121,9 +123,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SafeArea(
-          minimum: EdgeInsets.symmetric(horizontal: 5),
-          child: paginas[paginaSel].pathPagina),
+      body: IndexedStack(index: paginaSel, children: [
+        SafeArea(
+            minimum: EdgeInsets.symmetric(horizontal: 5),
+            child: paginas[0].pathPagina),
+        SafeArea(
+            minimum: EdgeInsets.symmetric(horizontal: 5),
+            child: paginas[1].pathPagina),
+        SafeArea(
+            minimum: EdgeInsets.symmetric(horizontal: 5),
+            child: paginas[2].pathPagina),
+      ]),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             boxShadow: [

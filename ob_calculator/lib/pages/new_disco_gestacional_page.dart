@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -29,6 +30,8 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
   double _angle = 0.0;
   double _oldAngle = 0.0;
   double _angleDelta = 0.0;
+  double fpp = 0.0;
+  double fechaSel = 0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +42,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
               children: [
                 Center(
                   child: Transform.rotate(
-                    angle: _angle,
+                    angle: -0.0172 * fpp,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
@@ -77,6 +80,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                                 () {
                                   _angle = touchPositionFromCenter.direction +
                                       _angleDelta;
+                                  print(_angle);
                                 },
                               );
                             },
@@ -89,6 +93,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                 Center(
                     child: Image.asset(
                   'assets/calendar_arrow.png',
+                  //color: Colors.white,
                   height: kDiameter - 30,
                   width: kDiameter - 30,
                 )),
@@ -126,6 +131,9 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          SizedBox(
+                            height: 30,
+                          ),
                           Container(
                             child: Builder(builder: (context) {
                               localeJiff();
@@ -135,19 +143,23 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                                   Text(
                                     '${datos[1]}',
                                     style: TextStyle(
-                                        fontSize: 25, color: Colors.white),
+                                        fontSize: 25,
+                                        color: azulUnab,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   Text(
                                     'Fecha probable de parto',
                                     style: TextStyle(
-                                        fontSize: 18, color: Colors.white70),
+                                        fontSize: 18,
+                                        color: azulUnab,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               );
                             }),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 50,
                           ),
                           Container(
                             child: Builder(builder: (context) {
@@ -157,12 +169,16 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                                   Text(
                                     '${datos[0]}',
                                     style: TextStyle(
-                                        fontSize: 25, color: Colors.white),
+                                        fontSize: 25,
+                                        color: azulUnab,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                   Text(
                                     'Edad Gestacional',
                                     style: TextStyle(
-                                        fontSize: 18, color: Colors.white70),
+                                        fontSize: 18,
+                                        color: azulUnab,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               );
@@ -219,7 +235,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                 setState(() {
                   fechaSeleccionada = fecha ?? fechaSeleccionada;
                   datos.clear();
-
+                  fechaSel = Jiffy(fechaSeleccionada).dayOfYear.toDouble();
                   setState(() {
                     var fechaMesesSubstracted = DateTime(
                         fechaSeleccionada.year + 1,
@@ -296,6 +312,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                     edadGestacionalenSemanas = edadGestacionalSemanas;
                     //FECHA PROBABLE DE PARTO
                     datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
+                    fpp = Jiffy(fechaMesesSubstracted).dayOfYear.toDouble();
                     if (edadGestacionalSemanas > 1 &&
                         edadGestacionalSemanas < 41) {
                       buttonPressed = true;

@@ -483,17 +483,18 @@ class _SignoZodiacoPageState extends State<SignoZodiacoPage> {
                 ),
                 itemBuilder: (context) => [
                   PopupMenuItem(
-                    //value: 'otrosSignos',
+                    value: 'otrosSignos',
                     child: Text('Ver otros signos'),
-
-                    onTap: () {
-                      MaterialPageRoute route = MaterialPageRoute(
-                        builder: (BuildContext context) => ListaSignos(),
-                      );
-                      Navigator.push(context, route);
-                    },
                   ),
                 ],
+                onSelected: (value) {
+                  if (value == 'otrosSignos') {
+                    MaterialPageRoute route = MaterialPageRoute(
+                      builder: (BuildContext context) => ListaSignos(),
+                    );
+                    Navigator.push(context, route);
+                  }
+                },
               )
             ]),
         body: Builder(builder: ((context) {
