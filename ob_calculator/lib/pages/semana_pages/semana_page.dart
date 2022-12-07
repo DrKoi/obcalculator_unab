@@ -17,10 +17,14 @@ final Map<num, Semana> semana = {
     image: '',
     numSemana: 'Semana 2 de Embarazo',
     slogan: '',
-    textoSemana: Column(children: [
+    textoSemana:
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       RichText(
           text: TextSpan(
-              style: TextStyle(fontSize: 18, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  leadingDistribution: TextLeadingDistribution.proportional),
               children: <TextSpan>[
             TextSpan(
                 text:
@@ -40,9 +44,12 @@ final Map<num, Semana> semana = {
           ])
           //textAlign: TextAlign.justify,
           ),
-      Text(
-        '\nOvulación',
-        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      RichText(
+        text: TextSpan(
+          text: '\nOvulación',
+          style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
         textAlign: TextAlign.left,
       ),
       RichText(
@@ -298,9 +305,12 @@ class _SemanaState extends State<SemanaPage> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  child: semana[semanaKey]!.textoSemana,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: semana[semanaKey]!.textoSemana,
+                  ),
                 )
               ],
             ),
