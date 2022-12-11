@@ -19,6 +19,11 @@ class NewDiscoGestacionalPage extends StatefulWidget {
 }
 
 class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
+  //TODO:-LISTA CON FRACCIONES DEL RANGO DEL ANGLE DEL CIRCULO, Y FRACCIONES DE CADA UNO DE LOS
+  //DOCE MESES POR LA CANTIDAD DE DÍAS DE CADA UNO
+
+  //TODO:- Add sharedPreferences para guardar la fecha seleccionada Por la sesión de uso
+
   late num edadGestacionalenSemanas;
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
@@ -138,6 +143,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                             child: Builder(builder: (context) {
                               localeJiff();
                               return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
@@ -146,6 +152,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                                         fontSize: 25,
                                         color: azulUnab,
                                         fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.center,
                                   ),
                                   Text(
                                     'Fecha probable de parto',
@@ -164,14 +171,17 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                           Container(
                             child: Builder(builder: (context) {
                               return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${datos[0]}',
                                     style: TextStyle(
-                                        fontSize: 25,
-                                        color: azulUnab,
-                                        fontWeight: FontWeight.w500),
+                                      fontSize: 25,
+                                      color: azulUnab,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                   Text(
                                     'Edad Gestacional',

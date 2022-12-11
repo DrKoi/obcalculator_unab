@@ -21,9 +21,7 @@ class _HomePageState extends State<HomePage> {
         subtitulo: null,
         iconoPagina: Icon(MdiIcons.baby),
         nombrePagina: 'Edad Gestacional',
-        //pathPagina: DiscoDiscoPage()),
         pathPagina: NewDiscoGestacionalPage()),
-    //------------------------------
     Pagina(
         subtitulo: null,
         iconoPagina: Icon(MdiIcons.doctor),
@@ -123,7 +121,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: IndexedStack(index: paginaSel, children: [
+      body: /* IndexedStack(index: paginaSel, children: [
         SafeArea(
             minimum: EdgeInsets.symmetric(horizontal: 5),
             child: paginas[0].pathPagina),
@@ -133,7 +131,8 @@ class _HomePageState extends State<HomePage> {
         SafeArea(
             minimum: EdgeInsets.symmetric(horizontal: 5),
             child: paginas[2].pathPagina),
-      ]),
+      ]) */
+          paginas[paginaSel].pathPagina,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             boxShadow: [
