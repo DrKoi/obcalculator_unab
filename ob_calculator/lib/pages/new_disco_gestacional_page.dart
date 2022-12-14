@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
+import 'package:ob_calculator/services/local_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 import '../constants.dart';
@@ -47,7 +49,8 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
               children: [
                 Center(
                   child: Transform.rotate(
-                    angle: -0.0172 * fpp,
+                    angle: _angle,
+                    //angle: -0.0172 * fpp,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
@@ -231,129 +234,150 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         Spacer(),
         Text(fFecha.format(fechaSeleccionada),
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        IconButton(
-            color: Colors.grey,
-            onPressed: () {
-              showDatePicker(
-                context: context,
-                initialDate: fechaSeleccionada,
-                firstDate: firstDate,
-                lastDate: DateTime.now(),
-                locale: Locale('es', 'ES'),
-              ).then((fecha) {
-                setState(() {
-                  fechaSeleccionada = fecha ?? fechaSeleccionada;
-                  datos.clear();
-                  fechaSel = Jiffy(fechaSeleccionada).dayOfYear.toDouble();
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: rojoUnab, borderRadius: BorderRadius.circular(30)),
+          child: IconButton(
+              color: Colors.white,
+              onPressed: () {
+                showDatePicker(
+                  context: context,
+                  initialDate: fechaSeleccionada,
+                  firstDate: firstDate,
+                  lastDate: DateTime.now(),
+                  locale: Locale('es', 'ES'),
+                ).then((fecha) {
                   setState(() {
-                    var fechaMesesSubstracted = DateTime(
-                        fechaSeleccionada.year + 1,
-                        fechaSeleccionada.month - 3,
-                        fechaSeleccionada.day + 7);
-                    var edadGestacionalSemanas = Jiffy([
-                      DateTime.now().year,
-                      DateTime.now().month,
-                      DateTime.now().day
-                    ]).diff(
-                        Jiffy([
-                          fechaSeleccionada.year,
-                          fechaSeleccionada.month,
-                          fechaSeleccionada.day
-                        ]),
-                        Units.WEEK);
-                    var edadGestacionalDias = (Jiffy([
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day
-                        ]).diff(
-                            Jiffy([
-                              fechaSeleccionada.year,
-                              fechaSeleccionada.month,
-                              fechaSeleccionada.day
-                            ]),
-                            Units.DAY) %
-                        7);
+                    fechaSeleccionada = fecha ?? fechaSeleccionada;
+                    datos.clear();
+                    fechaSel = Jiffy(fechaSeleccionada).dayOfYear.toDouble();
+                    setState(() {
+                      var fechaMesesSubstracted = DateTime(
+                          fechaSeleccionada.year + 1,
+                          fechaSeleccionada.month - 3,
+                          fechaSeleccionada.day + 7);
+                      var edadGestacionalSemanas = Jiffy([
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day
+                      ]).diff(
+                          Jiffy([
+                            fechaSeleccionada.year,
+                            fechaSeleccionada.month,
+                            fechaSeleccionada.day
+                          ]),
+                          Units.WEEK);
+                      var edadGestacionalDias = (Jiffy([
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day
+                          ]).diff(
+                              Jiffy([
+                                fechaSeleccionada.year,
+                                fechaSeleccionada.month,
+                                fechaSeleccionada.day
+                              ]),
+                              Units.DAY) %
+                          7);
 
-                    //EDAD GESTACIONAL
-                    if (edadGestacionalDias == 0 &&
-                        edadGestacionalSemanas == 0) {
-                      datos.add('---');
-                    } else {
-                      if (edadGestacionalDias == 0) {
-                        datos.add(
-                            edadGestacionalSemanas.toString() + ' semanas ');
+                      //EDAD GESTACIONAL
+                      if (edadGestacionalDias == 0 &&
+                          edadGestacionalSemanas == 0) {
+                        datos.add('---');
                       } else {
-                        if (edadGestacionalSemanas == 0) {
-                          if (edadGestacionalDias == 1) {
-                            datos.add(edadGestacionalDias.toString() + ' día');
-                          } else {
-                            datos
-                                .add(edadGestacionalDias.toString() + ' días ');
-                          }
+                        if (edadGestacionalDias == 0) {
+                          datos.add(
+                              edadGestacionalSemanas.toString() + ' semanas ');
                         } else {
-                          if (edadGestacionalDias == 1) {
-                            if (edadGestacionalSemanas == 1) {
-                              datos.add(edadGestacionalSemanas.toString() +
-                                  ' semana y ' +
-                                  edadGestacionalDias.toString() +
-                                  ' día ');
+                          if (edadGestacionalSemanas == 0) {
+                            if (edadGestacionalDias == 1) {
+                              datos
+                                  .add(edadGestacionalDias.toString() + ' día');
                             } else {
+                              datos.add(
+                                  edadGestacionalDias.toString() + ' días ');
+                            }
+                          } else {
+                            if (edadGestacionalDias == 1) {
+                              if (edadGestacionalSemanas == 1) {
+                                datos.add(edadGestacionalSemanas.toString() +
+                                    ' semana y ' +
+                                    edadGestacionalDias.toString() +
+                                    ' día ');
+                              } else {
+                                datos.add(edadGestacionalSemanas.toString() +
+                                    ' semanas y ' +
+                                    edadGestacionalDias.toString() +
+                                    ' día');
+                              }
+                            } else {
+                              if (edadGestacionalSemanas == 1) {
+                                datos.add(edadGestacionalSemanas.toString() +
+                                    ' semana y ' +
+                                    edadGestacionalDias.toString() +
+                                    ' días ');
+                              }
                               datos.add(edadGestacionalSemanas.toString() +
                                   ' semanas y ' +
                                   edadGestacionalDias.toString() +
-                                  ' día');
-                            }
-                          } else {
-                            if (edadGestacionalSemanas == 1) {
-                              datos.add(edadGestacionalSemanas.toString() +
-                                  ' semana y ' +
-                                  edadGestacionalDias.toString() +
                                   ' días ');
                             }
-                            datos.add(edadGestacionalSemanas.toString() +
-                                ' semanas y ' +
-                                edadGestacionalDias.toString() +
-                                ' días ');
                           }
                         }
                       }
-                    }
-                    edadGestacionalenSemanas = edadGestacionalSemanas;
-                    //FECHA PROBABLE DE PARTO
-                    datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
-                    fpp = Jiffy(fechaMesesSubstracted).dayOfYear.toDouble();
-                    if (edadGestacionalSemanas > 1 &&
-                        edadGestacionalSemanas < 41) {
-                      buttonPressed = true;
-                      //PESO PROMEDIO DEL BEBÉ
-                      pesoPromedio(edadGestacionalSemanas);
-                      //TALLA PROMEDIO DEL BEBÉ
-                      tallaPromedio(edadGestacionalSemanas);
-                      //DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
-                      dBiParietal(edadGestacionalSemanas);
-                      //LONGITUD DEL FÉMUR DEL BEBÉ
-                      logitudFemur(edadGestacionalSemanas);
+                      edadGestacionalenSemanas = edadGestacionalSemanas;
+                      //FECHA PROBABLE DE PARTO
+                      datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
+                      fpp = Jiffy(fechaMesesSubstracted).dayOfYear.toDouble();
+                      if (edadGestacionalSemanas > 1 &&
+                          edadGestacionalSemanas < 41) {
+                        buttonPressed = true;
+                        //PESO PROMEDIO DEL BEBÉ
+                        pesoPromedio(edadGestacionalSemanas);
+                        //TALLA PROMEDIO DEL BEBÉ
+                        tallaPromedio(edadGestacionalSemanas);
+                        //DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
+                        dBiParietal(edadGestacionalSemanas);
+                        //LONGITUD DEL FÉMUR DEL BEBÉ
+                        logitudFemur(edadGestacionalSemanas);
 
-                      //SIGNO ZODIACAL
-                      //var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
-                      calcularSignoZodiaco(fechaMesesSubstracted);
-                    } else if (edadGestacionalSemanas < 2) {
-                      buttonPressed = false;
-                      menorDos = true;
-                    } else if (edadGestacionalSemanas > 40) {
-                      buttonPressed = false;
-                      mayorCuarenta = true;
-                    }
+                        //SIGNO ZODIACAL
+                        //var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
+                        calcularSignoZodiaco(fechaMesesSubstracted);
+
+                        /* for (int i = 0; i > 7; i++) {
+                          LocaleStorage.prefs.setStringList('datos', [datos[i]]);
+                        } */
+                        /* await LocaleStorage.prefs.setStringList('datos', [
+                          datos[0],
+                          datos[1],
+                          datos[2],
+                          datos[3],
+                          datos[4],
+                          datos[5],
+                          datos[7]
+                        ]); */
+                      } else if (edadGestacionalSemanas < 2) {
+                        buttonPressed = false;
+                        menorDos = true;
+                      } else if (edadGestacionalSemanas > 40) {
+                        buttonPressed = false;
+                        mayorCuarenta = true;
+                      }
+                    });
                   });
                 });
-              });
-            },
-            icon: Icon(
-              MdiIcons.calendar,
-              size: 30,
-              color: Color(0xFF001B2B),
-            )),
+              },
+              icon: Icon(
+                MdiIcons.calendar,
+                //size: 30,
+                //color: Color(0xFF001B2B),
+              )),
+        ),
       ],
     );
   }
@@ -1212,6 +1236,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
         height: 50,
         child: ElevatedButton.icon(
             onPressed: (() {
+              //print(LocaleStorage.prefs.getStringList('datos').toString());
               if (buttonPressed) {
                 MaterialPageRoute route = MaterialPageRoute(
                   builder: (context) =>

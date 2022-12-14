@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/constants.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
 
 class FurOperacionalPage extends StatefulWidget {
@@ -30,21 +31,38 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
               key: formKey,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: fechaEcoPicker(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: campoSemanasEco(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: campoDiasEco(),
-                  ),
-                  botonCalcular(),
-                ]),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Container(
+                        height: 30,
+                        child: Text(
+                          'Ingrese Datos',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: fechaEcoPicker(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: campoSemanasEco(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: campoDiasEco(),
+                        ),
+                        botonCalcular(),
+                      ]),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -65,25 +83,35 @@ class _FurOperacionalPageState extends State<FurOperacionalPage> {
         Text(fFecha.format(fechaSeleccionada),
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         //Spacer(),
-        IconButton(
-          onPressed: () {
-            buttonPressed = true;
-            DateTime firstDate =
-                DateTime.now().subtract(Duration(days: 6 + (7 * 40)));
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              boxShadow: [],
+              color: rojoUnab,
+              borderRadius: BorderRadius.circular(30)),
+          child: IconButton(
+            color: Colors.white,
+            onPressed: () {
+              buttonPressed = true;
+              DateTime firstDate =
+                  DateTime.now().subtract(Duration(days: 6 + (7 * 40)));
 
-            showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: firstDate,
-              lastDate: DateTime.now(),
-              locale: Locale('es', 'ES'),
-            ).then((fecha) {
-              setState(() {
-                fechaSeleccionada = fecha ?? fechaSeleccionada;
+              showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: firstDate,
+                lastDate: DateTime.now(),
+                locale: Locale('es', 'ES'),
+              ).then((fecha) {
+                setState(() {
+                  fechaSeleccionada = fecha ?? fechaSeleccionada;
+                });
               });
-            });
-          },
-          icon: Icon(MdiIcons.calendar),
+            },
+            icon: Icon(MdiIcons.calendar),
+          ),
         ),
       ],
     );
