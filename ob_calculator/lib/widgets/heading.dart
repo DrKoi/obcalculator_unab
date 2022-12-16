@@ -9,9 +9,9 @@ class Heading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
+        /* const SizedBox(
           height: 45,
-        ),
+        ), */
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
