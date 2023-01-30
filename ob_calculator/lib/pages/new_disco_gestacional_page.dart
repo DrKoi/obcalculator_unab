@@ -1,12 +1,16 @@
 import 'dart:ffi';
 import 'dart:math';
 
+import 'package:date_time_field/date_time_field.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
 import 'package:ob_calculator/services/local_storage.dart';
+import 'package:ob_calculator/widgets/date_selector_disc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
@@ -25,7 +29,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
   //DOCE MESES POR LA CANTIDAD DE DÍAS DE CADA UNO
 
   //TODO:- Add sharedPreferences para guardar la fecha seleccionada Por la sesión de uso
-
+  DateEditingController _dateCtrl = DateEditingController();
   late num edadGestacionalenSemanas;
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
@@ -45,8 +49,20 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
       body: Column(
         children: [
           Expanded(
-            child: Stack(
-              children: [
+            child: Stack(children: [
+          /* Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: campoFurPicker(),
+              ),
+            ),
+          ), */
+
+          DateTimeField(controller:_dateCtrl, ),
+              /*
                 Center(
                   child: Transform.rotate(
                     angle: _angle,
@@ -202,24 +218,132 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
                     ),
                   ),
                 )),
-              ],
-            ),
-            flex: 3,
-          ),
-          Expanded(
-            child: Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: campoFurPicker(),
-                  ),
-                  botonVerDetalles(),
-                ]),
+              
+            
+             */
+              Positioned(
+                top: 110,
+                left: MediaQuery.of(context).size.width / 2 - 170,
+
+                child: RotatedBox(
+                    quarterTurns: 2,
+                    child: Image.asset(
+                      'assets/calendar_arrow.png',
+                      //color: Colors.white,
+                      height: kDiameter - 30,
+                      width: kDiameter - 30,
+                    )),
               ),
-            ),
+              Positioned(
+                child: YearWheel(),
+                bottom: -400,
+                left: -MediaQuery.of(context).size.width / 2 + 100,
+              ),
+            Positioned(top:100,
+                left: MediaQuery.of(context).size.width / 2 - 170,
+            
+                  child: Container(
+                width: kDiameter - 30,
+                height: kDiameter - 30,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.transparent,
+                    width: 20,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child: SleekCircularSlider(
+                  min: kMin,
+                  max: kMax,
+                  initialValue: Jiffy(fechaSeleccionada).dayOfYear.toDouble(),
+                  appearance: CircularSliderAppearance(
+                      size: kDiameter - 150,
+                      startAngle: 269,
+                      angleRange: 360,
+                      customColors: CustomSliderColors(
+                        trackColor: Colors.transparent,
+                        dotColor: Colors.transparent,
+                        progressBarColor: Colors.transparent,
+                        hideShadow: true,
+                        dynamicGradient: true,
+                      ),
+                      spinnerMode: false),
+                  onChange: null,
+                  innerWidget: (value) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          child: Builder(builder: (context) {
+                            localeJiff();
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${datos[1]}',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: azulUnab,
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Fecha probable de parto',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: azulUnab,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            );
+                          }),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Container(
+                          child: Builder(builder: (context) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${datos[0]}',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    color: azulUnab,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Edad Gestacional',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: azulUnab,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )),
+              Positioned(
+                  child: botonVerDetalles(),
+                  bottom: 40,
+                  left: MediaQuery.of(context).size.width / 2 - 80),
+            ]),
+            flex: 3,
           ),
         ],
       ),
