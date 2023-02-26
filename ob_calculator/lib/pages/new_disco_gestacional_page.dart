@@ -1,18 +1,12 @@
-import 'dart:ffi';
+import 'dart:async';
 import 'dart:math';
 
-import 'package:date_time_field/date_time_field.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ob_calculator/pages/disco_disco.dart';
 import 'package:ob_calculator/pages/mostrar_datos.dart';
-import 'package:ob_calculator/services/local_storage.dart';
-import 'package:ob_calculator/widgets/date_selector_disc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 import '../constants.dart';
 
@@ -25,11 +19,13 @@ class NewDiscoGestacionalPage extends StatefulWidget {
 }
 
 class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
-  //TODO:-LISTA CON FRACCIONES DEL RANGO DEL ANGLE DEL CIRCULO, Y FRACCIONES DE CADA UNO DE LOS
-  //DOCE MESES POR LA CANTIDAD DE DÍAS DE CADA UNO
+// late DateTime _selectedDate = widget.selectedDate;
+  late DateTime _selectedDate = DateTime.now();
+  late StreamController<DateTime> _dateStreamController;
+  late Stream<DateTime> _dateStream;
+  var fecha = DateTime.now();
+  late Offset _lastPoint;
 
-  //TODO:- Add sharedPreferences para guardar la fecha seleccionada Por la sesión de uso
-  DateEditingController _dateCtrl = DateEditingController();
   late num edadGestacionalenSemanas;
   final formKey = GlobalKey<FormState>();
   DateTime fechaSeleccionada = DateTime.now();
@@ -38,314 +34,183 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
   bool mayorCuarenta = false;
   bool menorDos = false;
   final List<dynamic> datos = ['---', '---', '---', '---', '---', '---', '---'];
-  double _angle = 0.0;
-  double _oldAngle = 0.0;
-  double _angleDelta = 0.0;
   double fpp = 0.0;
   double fechaSel = 0.0;
+  DateTime fechaRestada = DateTime.now();
+
+  // late DateTime fecha;
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _dateStreamController = StreamController<DateTime>();
+    _dateStream = _dateStreamController.stream;
+  }
+
+  @override
+  void dispose() {
+    _dateStreamController.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
-            child: Stack(children: [
-          /* Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: campoFurPicker(),
-              ),
-            ),
-          ), */
-
-          DateTimeField(controller:_dateCtrl, ),
-              /*
-                Center(
-                  child: Transform.rotate(
-                    angle: _angle,
-                    //angle: -0.0172 * fpp,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/Circular_calendar1.png')),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          Offset centerOfGestureDetector =
-                              Offset(constraints.maxWidth / 2, 130);
-                          return GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onPanStart: (details) {
-                              final touchPositionFromCenter =
-                                  details.localPosition -
-                                      centerOfGestureDetector;
-                              _angleDelta =
-                                  _oldAngle - touchPositionFromCenter.direction;
-                            },
-                            onPanEnd: (details) {
-                              setState(
-                                () {
-                                  _oldAngle = _angle;
-                                },
-                              );
-                            },
-                            onPanUpdate: (details) {
-                              final touchPositionFromCenter =
-                                  details.localPosition -
-                                      centerOfGestureDetector;
-
-                              setState(
-                                () {
-                                  _angle = touchPositionFromCenter.direction +
-                                      _angleDelta;
-                                  print(_angle);
-                                },
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Center(
-                    child: Image.asset(
-                  'assets/calendar_arrow.png',
-                  //color: Colors.white,
-                  height: kDiameter - 30,
-                  width: kDiameter - 30,
-                )),
-                Center(
-                    child: Container(
-                  width: kDiameter - 30,
-                  height: kDiameter - 30,
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.transparent,
-                      width: 20,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  child: SleekCircularSlider(
-                    min: kMin,
-                    max: kMax,
-                    initialValue: Jiffy(fechaSeleccionada).dayOfYear.toDouble(),
-                    appearance: CircularSliderAppearance(
-                        size: kDiameter - 150,
-                        startAngle: 269,
-                        angleRange: 360,
-                        customColors: CustomSliderColors(
-                          trackColor: Colors.transparent,
-                          dotColor: Colors.transparent,
-                          progressBarColor: Colors.transparent,
-                          hideShadow: true,
-                          dynamicGradient: true,
-                        ),
-                        spinnerMode: false),
-                    onChange: null,
-                    innerWidget: (value) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            child: Builder(builder: (context) {
-                              localeJiff();
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${datos[1]}',
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        color: azulUnab,
-                                        fontWeight: FontWeight.w500),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    'Fecha probable de parto',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: azulUnab,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
-                          SizedBox(
-                            height: 50,
-                          ),
-                          Container(
-                            child: Builder(builder: (context) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${datos[0]}',
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: azulUnab,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    'Edad Gestacional',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: azulUnab,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              );
-                            }),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )),
-              
-            
-             */
-              Positioned(
-                top: 110,
-                left: MediaQuery.of(context).size.width / 2 - 170,
-
-                child: RotatedBox(
-                    quarterTurns: 2,
-                    child: Image.asset(
-                      'assets/calendar_arrow.png',
-                      //color: Colors.white,
-                      height: kDiameter - 30,
-                      width: kDiameter - 30,
-                    )),
-              ),
-              Positioned(
-                child: YearWheel(),
-                bottom: -400,
-                left: -MediaQuery.of(context).size.width / 2 + 100,
-              ),
-            Positioned(top:100,
-                left: MediaQuery.of(context).size.width / 2 - 170,
-            
-                  child: Container(
-                width: kDiameter - 30,
-                height: kDiameter - 30,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.transparent,
-                    width: 20,
-                    style: BorderStyle.solid,
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text(
+                    'Bienvenid@',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-                child: SleekCircularSlider(
-                  min: kMin,
-                  max: kMax,
-                  initialValue: Jiffy(fechaSeleccionada).dayOfYear.toDouble(),
-                  appearance: CircularSliderAppearance(
-                      size: kDiameter - 150,
-                      startAngle: 269,
-                      angleRange: 360,
-                      customColors: CustomSliderColors(
-                        trackColor: Colors.transparent,
-                        dotColor: Colors.transparent,
-                        progressBarColor: Colors.transparent,
-                        hideShadow: true,
-                        dynamicGradient: true,
-                      ),
-                      spinnerMode: false),
-                  onChange: null,
-                  innerWidget: (value) => Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          child: Builder(builder: (context) {
-                            localeJiff();
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '${datos[1]}',
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: azulUnab,
-                                      fontWeight: FontWeight.w500),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  'Fecha probable de parto',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: azulUnab,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            );
-                          }),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Container(
-                          child: Builder(builder: (context) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '${datos[0]}',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    color: azulUnab,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  'Edad Gestacional',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: azulUnab,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            );
-                          }),
-                        ),
-                      ],
-                    ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text(
+                    'Para seleccionar una fecha arrastra el disco, luego pulsa el botón para ver tus resultados',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              )),
-              Positioned(
-                  child: botonVerDetalles(),
-                  bottom: 40,
-                  left: MediaQuery.of(context).size.width / 2 - 80),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Stack(alignment: Alignment.center, children: [
+              Center(
+                child: Image.asset(
+                  'assets/Circular_calendar1.png',
+                  //color: Colors.white,
+                  height: kDiameter,
+                  width: kDiameter,
+                ),
+              ),
+              discoDatePicker(),
             ]),
-            flex: 3,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: rojoUnab),
+              padding: const EdgeInsets.all(8.0),
+              child: botonVerDetalles(fechaRestada),
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container discoDatePicker() {
+    return Container(
+      width: 300,
+      height: 300,
+      child: Stack(
+        children: [
+          _buildDateDisc(),
+          StreamBuilder<DateTime>(
+            stream: _dateStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                fecha = DateTime.now();
+                return Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: Text(
+                      // '${snapshot.data!.day}/${snapshot.data!.month}/${snapshot.data!.year}',
+                      '${fFecha.format(fecha)}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+              fecha = snapshot.data!;
+
+              var jiffy1 = Jiffy(fecha, "yyyy-MM-dd");
+              var jiffy2 = Jiffy(DateTime.now(), "yyyy-MM-dd");
+              if (jiffy1.isAfter(jiffy2)) {
+                fechaRestada = DateTime(
+                    fecha.year - 1,
+                    fecha.month,
+                    fecha.day,
+                    fecha.hour,
+                    fecha.minute,
+                    fecha.second,
+                    fecha.millisecond,
+                    fecha.microsecond);
+              } else {
+                fechaRestada = fecha;
+              }
+              return Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: Text(
+                    // '${snapshot.data!.day}/${snapshot.data!.month}/${snapshot.data!.year}',
+                    '${fFecha.format(fechaRestada)}',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDateDisc() {
+    return GestureDetector(
+      onPanStart: (details) {
+        _lastPoint = details.localPosition;
+        setState(() {});
+      },
+      onPanEnd: (details) {},
+      onPanUpdate: (details) {
+        setState(() {
+          double angle = atan2(
+              details.localPosition.dy - 150, details.localPosition.dx - 150);
+          double lastAngle = atan2(_lastPoint.dy - 150, _lastPoint.dx - 150);
+          if (angle < 0) {
+            angle += 2 * pi;
+          }
+          int day = ((angle / (2 * pi)) * 365).floor() + 1;
+          _selectedDate =
+              DateTime(_selectedDate.year, 1, 1).add(Duration(days: day - 1));
+          _dateStreamController.add(_selectedDate);
+          _lastPoint = details.localPosition;
+        });
+      },
+      child: CustomPaint(
+        size: Size(500, 500),
+        painter: DateDiscPainter(_selectedDate),
       ),
     );
   }
@@ -1354,12 +1219,128 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
     }
   }
 
-  Container botonVerDetalles() {
+  Container botonVerDetalles(DateTime fecha) {
     return Container(
         color: rojoUnab,
         height: 50,
         child: ElevatedButton.icon(
             onPressed: (() {
+              setState(() {
+                fechaSeleccionada = fecha;
+                datos.clear();
+                fechaSel = Jiffy(fechaSeleccionada).dayOfYear.toDouble();
+                setState(() {
+                  var fechaMesesSubstracted = DateTime(
+                      fechaSeleccionada.year + 1,
+                      fechaSeleccionada.month - 3,
+                      fechaSeleccionada.day + 7);
+                  var edadGestacionalSemanas = Jiffy([
+                    DateTime.now().year,
+                    DateTime.now().month,
+                    DateTime.now().day
+                  ]).diff(
+                      Jiffy([
+                        fechaSeleccionada.year,
+                        fechaSeleccionada.month,
+                        fechaSeleccionada.day
+                      ]),
+                      Units.WEEK);
+                  var edadGestacionalDias = (Jiffy([
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day
+                      ]).diff(
+                          Jiffy([
+                            fechaSeleccionada.year,
+                            fechaSeleccionada.month,
+                            fechaSeleccionada.day
+                          ]),
+                          Units.DAY) %
+                      7);
+
+                  //EDAD GESTACIONAL
+                  if (edadGestacionalDias == 0 && edadGestacionalSemanas == 0) {
+                    datos.add('---');
+                  } else {
+                    if (edadGestacionalDias == 0) {
+                      datos
+                          .add(edadGestacionalSemanas.toString() + ' semanas ');
+                    } else {
+                      if (edadGestacionalSemanas == 0) {
+                        if (edadGestacionalDias == 1) {
+                          datos.add(edadGestacionalDias.toString() + ' día');
+                        } else {
+                          datos.add(edadGestacionalDias.toString() + ' días ');
+                        }
+                      } else {
+                        if (edadGestacionalDias == 1) {
+                          if (edadGestacionalSemanas == 1) {
+                            datos.add(edadGestacionalSemanas.toString() +
+                                ' semana y ' +
+                                edadGestacionalDias.toString() +
+                                ' día ');
+                          } else {
+                            datos.add(edadGestacionalSemanas.toString() +
+                                ' semanas y ' +
+                                edadGestacionalDias.toString() +
+                                ' día');
+                          }
+                        } else {
+                          if (edadGestacionalSemanas == 1) {
+                            datos.add(edadGestacionalSemanas.toString() +
+                                ' semana y ' +
+                                edadGestacionalDias.toString() +
+                                ' días ');
+                          }
+                          datos.add(edadGestacionalSemanas.toString() +
+                              ' semanas y ' +
+                              edadGestacionalDias.toString() +
+                              ' días ');
+                        }
+                      }
+                    }
+                  }
+                  edadGestacionalenSemanas = edadGestacionalSemanas;
+                  //FECHA PROBABLE DE PARTO
+                  datos.add(Jiffy(fechaMesesSubstracted).yMMMMd);
+                  fpp = Jiffy(fechaMesesSubstracted).dayOfYear.toDouble();
+                  if (edadGestacionalSemanas > 1 &&
+                      edadGestacionalSemanas < 41) {
+                    buttonPressed = true;
+                    //PESO PROMEDIO DEL BEBÉ
+                    pesoPromedio(edadGestacionalSemanas);
+                    //TALLA PROMEDIO DEL BEBÉ
+                    tallaPromedio(edadGestacionalSemanas);
+                    //DIAMETRO BIPARIETAL DE ACUERDO A SU ETAPA DE GESTACIÓN
+                    dBiParietal(edadGestacionalSemanas);
+                    //LONGITUD DEL FÉMUR DEL BEBÉ
+                    logitudFemur(edadGestacionalSemanas);
+
+                    //SIGNO ZODIACAL
+                    //var fechaMesDia = Jiffy(fechaMesesSubstracted).toString();
+                    calcularSignoZodiaco(fechaMesesSubstracted);
+
+                    /* for (int i = 0; i > 7; i++) {
+                          LocaleStorage.prefs.setStringList('datos', [datos[i]]);
+                        } */
+                    /* await LocaleStorage.prefs.setStringList('datos', [
+                          datos[0],
+                          datos[1],
+                          datos[2],
+                          datos[3],
+                          datos[4],
+                          datos[5],
+                          datos[7]
+                        ]); */
+                  } else if (edadGestacionalSemanas < 2) {
+                    buttonPressed = false;
+                    menorDos = true;
+                  } else if (edadGestacionalSemanas > 40) {
+                    buttonPressed = false;
+                    mayorCuarenta = true;
+                  }
+                });
+              });
               //print(LocaleStorage.prefs.getStringList('datos').toString());
               if (buttonPressed) {
                 MaterialPageRoute route = MaterialPageRoute(
@@ -1409,7 +1390,7 @@ class _NewDiscoGestacionalPageState extends State<NewDiscoGestacionalPage> {
               }
             }),
             icon: Icon(MdiIcons.details),
-            label: Text('Ver Otros datos')));
+            label: Text('Ver Datos')));
   }
 
   void calcularSignoZodiaco(DateTime fechaSeleccionada) {

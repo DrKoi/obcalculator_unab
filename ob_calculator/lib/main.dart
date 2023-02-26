@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ob_calculator/circulartest.dart';
 import 'package:ob_calculator/constants.dart';
+import 'package:ob_calculator/pages/disco_disco.dart';
 import 'package:ob_calculator/pages/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ob_calculator/pages/semana_pages/semana_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: theme,
       home: HomePage(),
+      // home: DateDisc(),
     );
   }
 }

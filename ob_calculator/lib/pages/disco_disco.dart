@@ -1,207 +1,174 @@
+// import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+// import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
+// import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:roulette/roulette.dart';
-import 'arrow.dart';
+// import '../constants.dart';
 
-void main() {
-  runApp(const DiscoDiscoPage());
-}
+// ignore: must_be_immutable
+// class DateDisc extends StatefulWidget {
+//   DateTime selectedDate;
+//   DateDisc({
+//     Key? key,
+//     required this.selectedDate,
+//   }) : super(key: key);
 
-class DiscoDiscoPage extends StatefulWidget {
-  const DiscoDiscoPage({Key? key}) : super(key: key);
+//   DateTime getSelectedDate() {
+//     return selectedDate;
+//   }
+
+//   @override
+//   _DateDiscState createState() => _DateDiscState();
+// }
+
+// class _DateDiscState extends State<DateDisc> {
+//   var fFecha = DateFormat('dd-MM-yyyy');
+//   late DateTime _selectedDate = widget.selectedDate;
+//   late StreamController<DateTime> _dateStreamController;
+//   late Stream<DateTime> _dateStream;
+//   var fecha = DateTime.now();
+//   late Offset _lastPoint;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _selectedDate = DateTime.now();
+//     _dateStreamController = StreamController<DateTime>();
+//     _dateStream = _dateStreamController.stream;
+//   }
+
+//   @override
+//   void dispose() {
+//     _dateStreamController.close();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Container(
+//         width: 300,
+//         height: 300,
+//         child: Stack(
+//           children: [
+//             _buildDateDisc(),
+//             StreamBuilder<DateTime>(
+//               stream: _dateStream,
+//               builder: (context, snapshot) {
+//                 if (!snapshot.hasData) {
+//                   widget.selectedDate = DateTime.now();
+//                   return Positioned(
+//                     left: 0,
+//                     right: 0,
+//                     top: 0,
+//                     bottom: 0,
+//                     child: Center(
+//                       child: Text(
+//                         // '${snapshot.data!.day}/${snapshot.data!.month}/${snapshot.data!.year}',
+//                         '${fFecha.format(DateTime.now())}',
+//                         style: TextStyle(
+//                           fontSize: 24,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ),
+//                   );
+//                 }
+//                 widget.selectedDate = snapshot.data!;
+
+//                 return Positioned(
+//                   left: 0,
+//                   right: 0,
+//                   top: 0,
+//                   bottom: 0,
+//                   child: Center(
+//                     child: Text(
+//                       // '${snapshot.data!.day}/${snapshot.data!.month}/${snapshot.data!.year}',
+//                       '${fFecha.format(snapshot.data!)}',
+//                       style: TextStyle(
+//                         fontSize: 24,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildDateDisc() {
+//     return GestureDetector(
+//       onPanStart: (details) {
+//         _lastPoint = details.localPosition;
+//         setState(() {});
+//       },
+//       onPanEnd: (details) {},
+//       onPanUpdate: (details) {
+//         setState(() {
+//           double angle = atan2(
+//               details.localPosition.dy - 150, details.localPosition.dx - 150);
+//           double lastAngle = atan2(_lastPoint.dy - 150, _lastPoint.dx - 150);
+//           if (angle < 0) {
+//             angle += 2 * pi;
+//           }
+//           int day = ((angle / (2 * pi)) * 365).floor() + 1;
+//           _selectedDate =
+//               DateTime(_selectedDate.year, 1, 1).add(Duration(days: day - 1));
+//           _dateStreamController.add(_selectedDate);
+//           _lastPoint = details.localPosition;
+//         });
+//       },
+//       child: CustomPaint(
+//         size: Size(300, 300),
+//         painter: DateDiscPainter(_selectedDate),
+//       ),
+//     );
+//   }
+// }
+
+class DateDiscPainter extends CustomPainter {
+  final DateTime selectedDate;
+
+  DateDiscPainter(this.selectedDate);
 
   @override
-  State<DiscoDiscoPage> createState() => _DiscoDiscoPageState();
-}
+  void paint(Canvas canvas, Size size) {
+    final double radius = 140;
+    final double angleIncrement = 2 * pi / 365;
+    final double startingAngle = -pi / 2;
 
-class _DiscoDiscoPageState extends State<DiscoDiscoPage> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Roulette',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
+    // Draw the background circle
+    Paint backgroundPaint = Paint()..color = Colors.grey[200]!;
+    canvas.drawCircle(Offset(150, 150), radius, backgroundPaint);
 
-class MyRoulette extends StatelessWidget {
-  const MyRoulette({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+    // Draw the selected date indicator
+    double selectedAngle =
+        (Jiffy(selectedDate).dayOfYear - 1) * angleIncrement + startingAngle;
+    Paint selectedPaint = Paint()..color = Colors.blue;
+    canvas.drawArc(Rect.fromCircle(center: Offset(150, 150), radius: radius),
+        selectedAngle, angleIncrement, true, selectedPaint);
 
-  final RouletteController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        SizedBox(
-          width: 260,
-          height: 260,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Roulette(
-              // Provide controller to update its state
-              controller: controller,
-              // Configure roulette's appearance
-              style: const RouletteStyle(
-                dividerThickness: 4,
-                textLayoutBias: .8,
-                centerStickerColor: Color(0xFF45A3FA),
-              ),
-            ),
-          ),
-        ),
-        const Arrow(),
-      ],
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-  static final _random = Random();
-
-  late RouletteController _controller;
-  bool _clockwise = true;
-
-  final colors = <Color>[
-    Colors.red.withAlpha(50),
-    Colors.green.withAlpha(30),
-    Colors.blue.withAlpha(70),
-    Colors.yellow.withAlpha(90),
-    Colors.amber.withAlpha(50),
-    Colors.indigo.withAlpha(70),
-  ];
-
-  @override
-  void initState() {
-    // Initialize the controller
-    final group = RouletteGroup.uniform(
-      colors.length,
-      colorBuilder: colors.elementAt,
-    );
-    _controller = RouletteController(vsync: this, group: group);
-    super.initState();
-  }
-
-  double _angle = 0.0;
-  double _oldAngle = 0.0;
-  double _angleDelta = 0.0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Roulette'),
-      ),
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Clockwise: ",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Switch(
-                    value: _clockwise,
-                    onChanged: (onChanged) {
-                      setState(() {
-                        _controller.resetAnimation();
-                        _clockwise = !_clockwise;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              Transform.rotate(
-                angle: _angle,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/Circular_calendar1.png')),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      Offset centerOfGestureDetector =
-                          Offset(constraints.maxWidth / 2, 130);
-                      return GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onPanStart: (details) {
-                          final touchPositionFromCenter =
-                              details.localPosition - centerOfGestureDetector;
-                          _angleDelta =
-                              _oldAngle - touchPositionFromCenter.direction;
-                        },
-                        onPanEnd: (details) {
-                          setState(
-                            () {
-                              _oldAngle = _angle;
-                            },
-                          );
-                        },
-                        onPanUpdate: (details) {
-                          final touchPositionFromCenter =
-                              details.localPosition - centerOfGestureDetector;
-
-                          setState(
-                            () {
-                              _angle = touchPositionFromCenter.direction +
-                                  _angleDelta;
-                              print(_angle);
-                              print('Angle delta: ' + _angleDelta.toString());
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: Colors.pink.withOpacity(0.1),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        // Use the controller to run the animation with rollTo method
-        onPressed: () => _controller.rollTo(
-          3,
-          clockwise: _clockwise,
-          offset: _random.nextDouble(),
-        ),
-        child: const Icon(Icons.refresh_rounded),
-      ),
-    );
+    // Draw the day markers
+    Paint markerPaint = Paint()..color = Colors.grey[400]!;
+    for (int i = 0; i < 365; i++) {
+      double angle = i * angleIncrement + startingAngle;
+      Offset startPoint = Offset(
+          150 + (radius - 20) * cos(angle), 150 + (radius - 20) * sin(angle));
+      Offset endPoint =
+          Offset(150 + radius * cos(angle), 150 + radius * sin(angle));
+      canvas.drawLine(startPoint, endPoint, markerPaint);
+    }
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
