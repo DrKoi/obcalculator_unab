@@ -8,7 +8,7 @@ import 'new_disco_gestacional_page.dart';
 import 'fur_operacional_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key}); 
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     Pagina(
         subtitulo: null,
         iconoPagina: Icon(MdiIcons.baby),
-        nombrePagina: 'Edad Gestacional',
+        nombrePagina: 'Calculadora Edad Gestacional',
         pathPagina: NewDiscoGestacionalPage()),
     Pagina(
         subtitulo: null,
